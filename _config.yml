@@ -10,7 +10,7 @@ locale                   : "ru-RU"
 title                    : "Denis Zagitov"
 title_separator          : "-"
 name                     : &name "Denis Zagitov"
-description              : &description "Опытный архитектор данных, специализирующийся на масштабируемых платформах данных и интеграциях ИИ."
+description              : &description "Архитектор данных и AI-консультант. Проектирую масштабируемые платформы данных, строю AI-решения под продукт и бизнес."
 url                      : https://DenisZagitov.github.io # основной URL и протокол вашего сайта, например: "https://mmistakes.github.io"
 baseurl                  : "" # подкаталог вашего сайта, например: "/blog"
 repository               : "DenisZagitov/DenisZagitov.github.io"
@@ -21,11 +21,11 @@ repository               : "DenisZagitov/DenisZagitov.github.io"
 author:
   # Биографическая информация
   avatar           : "profile.png"
-  name             :
-  pronouns         : "Денис Загитов"
-  bio              : "Data architect"
+  name             : *name
+  pronouns         : "he/him"
+  bio              : "Data architect & AI solutions lead"
   location         : "Cyprus"
-  employer         : "Tomsk State University of Control Systems and Radioelectronics"
+  employer         : "Data Platforms & AI Strategy"
   uri              : # URL
   email            : "deniszagitov@gmail.com" 
 

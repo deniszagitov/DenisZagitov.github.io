@@ -12,6 +12,12 @@
 
   @include clearfix();
   margin-bottom: 1em;
+  padding: 1.5rem;
+  background: linear-gradient(180deg, #0f172a 0%, #0b1224 100%);
+  color: #e2e8f0;
+  border-radius: 20px;
+  box-shadow: $box-shadow;
+  border: 1px solid rgba(255, 255, 255, 0.04);
 
   @media screen and (min-width: $sidebar-screen-min-width) {
     height: 100vh;
@@ -54,6 +60,10 @@
   img {
     width: 100%;
   }
+
+  a {
+    color: #e2e8f0;
+  }
 }
 
 .sidebar__right {
@@ -92,11 +102,9 @@
   img {
     max-width: 175px;
     border-radius: 50%;
-
-    @include breakpoint($large) {
-      padding: 5px;
-      border: 1px solid $border-color;
-    }
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+    border: 3px solid rgba(255, 255, 255, 0.08);
+    object-fit: cover;
   }
 }
 
@@ -153,14 +161,27 @@
   }
 }
 
+.author__cta {
+  width: 100%;
+  margin: 1rem 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+
+  .btn {
+    border-radius: 12px;
+    font-weight: 600;
+  }
+}
+
 .author__urls-wrapper {
   position: relative;
-  display: table-cell;
-  vertical-align: middle;
+  display: block;
+  width: 100%;
   font-family: $sans-serif;
   z-index: 10;
   position: relative;
-  cursor: pointer;
+  cursor: default;
 
   li:last-child {
     a {
@@ -173,88 +194,42 @@
   }
 
   button {
-    margin-bottom: 0;
-
-    @include breakpoint($large) {
-      display: none;
-    }
+    display: none;
   }
 }
 
 .author__urls {
-  display: none;
-  position: absolute;
-  right: 0;
-  margin-top: 15px;
-  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.5rem;
+  position: relative;
+  margin: 0.75rem 0 0;
+  padding: 0;
   list-style-type: none;
-  border: 1px solid $border-color;
-  border-radius: $border-radius;
-  background: #fff;
-  z-index: -1;
-  box-shadow: 0 0 10px rgba(#000, 0.25);
-  cursor: default;
-
-  @include breakpoint($large) {
-    display: block;
-    position: relative;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    box-shadow: none;
-  }
-
-  &:before {
-    display: block;
-    content: "";
-    position: absolute;
-    top: -11px;
-    left: calc(50% - 10px);
-    width: 0;
-    border-style: solid;
-    border-width: 0 10px 10px;
-    border-color: $border-color transparent;
-    z-index: 0;
-
-    @include breakpoint($large) {
-      display: none;
-    }
-  }
-
-  &:after {
-    display: block;
-    content: "";
-    position: absolute;
-    top: -10px;
-    left: calc(50% - 10px);
-    width: 0;
-    border-style: solid;
-    border-width: 0 10px 10px;
-    border-color: #fff transparent;
-    z-index: 1;
-
-    @include breakpoint($large) {
-      display: none;
-    }
-  }
 
   li {
     white-space: nowrap;
+    width: 100%;
   }
 
   a {
-    display: block;
-    margin-bottom: 5px;
-    padding-right: 5px;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    color: inherit;
-    font-size: $type-size-5;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    width: 100%;
+    margin-bottom: 0;
+    padding: 0.6rem 0.75rem;
+    color: #e2e8f0;
+    font-size: $type-size-6;
     text-decoration: none;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
 
     &:hover {
-      text-decoration: underline;
+      text-decoration: none;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
     }
   }
 }

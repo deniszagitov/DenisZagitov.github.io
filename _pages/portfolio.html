@@ -7,8 +7,17 @@ author_profile: true
 
 {% include base_path %}
 
-
-{% for post in site.portfolio %}
-  {% include archive-single.html %}
-{% endfor %}
-
+<div class="portfolio-grid">
+  {% for post in site.portfolio %}
+    {% assign teaser = post.header.teaser | default: post.image %}
+    <article class="portfolio-card">
+      <div class="portfolio-card__media"{% if teaser %} style="background-image: url('{{ teaser | relative_url }}')"{% endif %}></div>
+      <div class="portfolio-card__body">
+        <p class="portfolio-card__eyebrow">Case Study</p>
+        <h3 class="portfolio-card__title"><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+        <p class="portfolio-card__excerpt">{{ post.excerpt | markdownify | strip_html | truncate: 140 }}</p>
+        <a class="portfolio-card__link" href="{{ post.url | relative_url }}">View project</a>
+      </div>
+    </article>
+  {% endfor %}
+</div>

@@ -4,11 +4,13 @@
 
 .masthead {
   position: fixed;
-  background: white;
+  background: rgba(247, 249, 252, 0.92);
   border-bottom: 1px solid $border-color;
   height: $masthead-height;
   top: 0;
   width: 100%;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
 
   -webkit-animation: intro 0.3s both;
           animation: intro 0.3s both;

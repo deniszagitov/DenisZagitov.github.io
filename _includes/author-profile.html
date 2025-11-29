@@ -20,8 +20,13 @@
     {% if author.bio %}<p class="author__bio">{{ author.bio }}</p>{% endif %}
   </div>
 
+  <div class="author__cta">
+    <a class="btn btn--block" href="{{ "/cv/" | prepend: base_path }}">Download CV</a>
+    <a class="btn btn--inverse btn--block" href="mailto:{{ author.email }}">Let’s talk</a>
+  </div>
+
   <div class="author__urls-wrapper">
-    <button class="btn btn--inverse">Follow</button>
+    <button class="btn btn--inverse">Connect</button>
     <ul class="author__urls social-icons">
       <!-- Font Awesome icons / Biographic information  -->
       {% if author.location %}

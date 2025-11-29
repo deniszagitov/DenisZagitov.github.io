@@ -7,6 +7,16 @@ redirect_from:
   - /about.html
 ---
 
+<div class="home-hero">
+  <p class="hero__eyebrow">Data Architecture · AI Platforms · MLOps</p>
+  <h1 class="hero__headline">Hi, I’m Denis. I build AI-first data platforms that turn raw events into real-time decisions.</h1>
+  <p class="hero__subhead">Designing resilient data stacks, streaming pipelines, and intelligent agents for companies that can’t afford to guess.</p>
+  <div class="hero__actions">
+    <a class="btn btn--large" href="/portfolio/">View projects</a>
+    <a class="btn btn--inverse btn--large" href="mailto:deniszagitov@gmail.com">Book a call</a>
+  </div>
+</div>
+
 Привет! 
 
 Я - Денис. программист, путешественник, цифровой кочевник из Западной Сибири. 

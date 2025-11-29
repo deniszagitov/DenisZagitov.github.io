@@ -5,7 +5,7 @@
 #main {
   @include container;
   @include clearfix;
-  margin-top: 2em;
+  margin-top: 3em;
   padding-left: 1em;
   padding-right: 1em;
   animation: intro 0.3s both;
@@ -17,6 +17,11 @@
 }
 
 .page {
+  background: #fff;
+  padding: 2rem 2.25rem;
+  border-radius: 18px;
+  box-shadow: $box-shadow;
+
   @include breakpoint($large) {
     @include span(10 of 12 last);
     @include prefix(0.5 of 12);
@@ -31,6 +36,130 @@
     .page__share {
       @include full();
     }
+  }
+}
+
+.home-hero {
+  margin-bottom: 1.75rem;
+  padding: 2rem 2.25rem;
+  background: linear-gradient(135deg, #0f172a 0%, #0ea5e9 100%);
+  color: #e2e8f0;
+  border-radius: 22px;
+  box-shadow: $box-shadow;
+
+  @include breakpoint($medium) {
+    padding: 2.5rem 3rem;
+  }
+
+  .hero__eyebrow {
+    margin: 0 0 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: $type-size-6;
+    color: rgba(226, 232, 240, 0.8);
+  }
+
+  .hero__headline {
+    margin: 0 0 0.75rem;
+    font-family: $header-font-family;
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    line-height: 1.15;
+    color: #fff;
+  }
+
+  .hero__subhead {
+    margin: 0 0 1.25rem;
+    max-width: 900px;
+    font-size: $type-size-4;
+    color: rgba(226, 232, 240, 0.92);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .btn {
+    border-radius: 12px;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+.portfolio-card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid $border-color;
+  border-radius: 16px;
+  box-shadow: $box-shadow;
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 35px rgba(15, 23, 42, 0.14);
+  }
+}
+
+.portfolio-card__media {
+  width: 100%;
+  padding-top: 62%;
+  background: radial-gradient(circle at 20% 20%, rgba(14, 165, 233, 0.2), rgba(15, 23, 42, 0.9));
+  background-size: cover;
+  background-position: center;
+}
+
+.portfolio-card__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem 1.35rem 1.5rem;
+}
+
+.portfolio-card__eyebrow {
+  margin: 0;
+  font-size: $type-size-7;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: $gray;
+}
+
+.portfolio-card__title {
+  margin: 0;
+  font-size: $type-size-4;
+
+  a {
+    color: $text-color;
+    text-decoration: none;
+
+    &:hover {
+      color: $primary-color;
+    }
+  }
+}
+
+.portfolio-card__excerpt {
+  margin: 0;
+  color: $dark-gray;
+}
+
+.portfolio-card__link {
+  margin-top: auto;
+  font-weight: 600;
+  color: $primary-color;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
   }
 }
 

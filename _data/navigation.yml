@@ -4,14 +4,17 @@
 # ссылки. Удаление ссылки предотвратит её отображение в заголовке, но не удалит её с сайта.
 
 main:
-  - title: "Блог"
-    url: /year-archive/
-
-  - title: "Резюме"
+  - title: "Resume"
     url: /cv/
 
-  - title: "Портфолио"
+  - title: "Projects"
     url: /portfolio/
 
-  - title: "Выступления"
-    url: /talks/      
+  - title: "Speaking"
+    url: /talks/
+
+  - title: "Blog"
+    url: /year-archive/
+
+  - title: "Contact"
+    url: mailto:deniszagitov@gmail.com

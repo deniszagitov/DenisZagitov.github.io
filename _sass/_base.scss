@@ -12,6 +12,7 @@ body {
   padding: $masthead-height 0 0;
   padding-bottom: 9em;
   color: $text-color;
+  background: $background-color;
   font-family: $global-font-family;
   line-height: 1.5;
 
@@ -26,6 +27,7 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.2;
   font-family: $header-font-family;
   font-weight: bold;
+  letter-spacing: -0.02em;
 }
 
 h1 {

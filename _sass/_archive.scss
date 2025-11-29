@@ -3,6 +3,10 @@
    ========================================================================== */
 
 .archive {
+  background: #fff;
+  padding: 2rem 2.25rem;
+  border-radius: 18px;
+  box-shadow: $box-shadow;
   margin-bottom: 2em;
 
   @include breakpoint($medium) {

@@ -23,7 +23,8 @@
   cursor: pointer;
 
   &:hover {
-    background-color: mix(white, #000, 20%);
+    background-color: mix(#000, $primary-color, 15%);
+    box-shadow: 0 10px 24px rgba(14, 165, 233, 0.35);
   }
 
   .icon {
@@ -48,13 +49,13 @@
   /* for dark backgrounds */
 
   &--inverse {
-    color: $gray !important;
-    border: 1px solid $light-gray !important; /* override*/
+    color: $text-color !important;
+    border: 1px solid rgba(14, 165, 233, 0.35) !important; /* override*/
     background-color: #fff;
 
     &:hover {
-      color: #fff !important;
-      border-color: $gray;
+      color: $primary-color !important;
+      border-color: $primary-color;
     }
   }
 
