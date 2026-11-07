@@ -26,8 +26,8 @@ $(document).ready(function(){
 
   // Follow menu drop down
   $(".author__urls-wrapper button").on("click", function() {
-    $(".author__urls").fadeToggle("fast", function() {});
-    $(".author__urls-wrapper button").toggleClass("open");
+    $(this).closest(".author__urls-wrapper").toggleClass("is-open");
+    $(this).toggleClass("open").attr("aria-expanded", $(this).hasClass("open"));
   });
 
   // init smooth scroll, this needs to be slightly more than then fixed masthead height

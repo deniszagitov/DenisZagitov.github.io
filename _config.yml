@@ -11,7 +11,7 @@ title                    : "Denis Zagitov"
 title_separator          : "-"
 name                     : &name "Denis Zagitov"
 description              : &description "Архитектор данных и AI-консультант. Проектирую масштабируемые платформы данных, строю AI-решения под продукт и бизнес."
-url                      : https://DenisZagitov.github.io # основной URL и протокол вашего сайта, например: "https://mmistakes.github.io"
+url                      : https://deniszagitov.github.io # основной URL и протокол вашего сайта, например: "https://mmistakes.github.io"
 baseurl                  : "" # подкаталог вашего сайта, например: "/blog"
 repository               : "DenisZagitov/DenisZagitov.github.io"
 
@@ -30,10 +30,10 @@ author:
   email            : "deniszagitov@gmail.com" 
 
   # Академические сайты
-  arxiv            : "DenisZagitov"
+  arxiv            : # Add a verified arXiv profile URL
   googlescholar    : # "https://scholar.google.com/citations?user=PS_CX0AAAAAJ"
   impactstory      : # URL
-  orcid            : "http://orcid.org/0009-0008-5852-1796"
+  orcid            : "https://orcid.org/0009-0008-5852-1796"
   semantic         : # URL
   pubmed           : # "https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
   researchgate     : # URL
@@ -47,18 +47,18 @@ author:
   facebook         : "zagitovdenis"
   flickr           : # Username
   foursquare       : # Username
-  goodreads        : "167663681-denis-zagitov"
+  goodreads        : "user/show/167663681-denis-zagitov"
   google_plus      : # Username
   keybase          : # Username
   instagram        : "deniszagitov"
   lastfm           : "DenisZagitov"
   linkedin         : "deniszagitov"
   mastodon         : # URL
-  medium           : "deniszagitov"
+  medium           : "https://medium.com/@deniszagitov"
   pinterest        : # Username
   soundcloud       : # Username
-  steam            : "76561198122863389"
-  telegram         : "DenisZagitov"
+  steam            : "https://steamcommunity.com/profiles/76561198122863389"
+  telegram         : "https://t.me/DenisZagitov"
   tumblr           : # Username
   twitter          : "deniszagitov"
   vine             : # Username
@@ -176,8 +176,21 @@ exclude:
   - Rakefile
   - README
   - tmp
+  - scripts
+  - markdown_generator
+  - talkmap.ipynb
+  - talkmap.py
+  # Template examples are retained as source, but are not personal credentials.
+  - _publications/2009-10-01-paper-title-number-1.md
+  - _publications/2010-10-01-paper-title-number-2.md
+  - _publications/2015-10-01-paper-title-number-3.md
+  - _publications/2024-02-17-paper-title-number-4.md
+  - _teaching/2014-spring-teaching-1.md
+  - _teaching/2015-spring-teaching-2.md
+  - _pages/archive-layout-with-content.md
+  - _pages/markdown.md
+  - _pages/non-menu-page.md
   - vendor
-  - assets
 keep_files:
   - .git
   - .svn

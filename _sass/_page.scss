@@ -17,6 +17,7 @@
 }
 
 .page {
+  display: flow-root;
   background: #fff;
   padding: 2rem 2.25rem;
   border-radius: 18px;
@@ -91,6 +92,18 @@
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.25rem;
   margin-top: 1rem;
+}
+
+@media screen and (max-width: $small - 1px) {
+  .page,
+  .archive,
+  .home-hero {
+    padding: 1.25rem;
+  }
+
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .portfolio-card {
