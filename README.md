@@ -35,8 +35,9 @@ The build is static and outputs to `dist/`, ready for GitHub Pages. This branch 
 - `src/styles/global.css`: typography, responsive layout, both colour themes, and printing.
 - `src/styles/heritage.css`: emerald/gold appearance, polished metal, glass surfaces, and responsive lighting effects.
 - `src/data/architecture.ts`: Russian/English copy for the five architecture layers, technology explanations, and references to real career experience. This is the source to edit when refining the architecture text.
+- `src/data/architecture-diagrams.ts` and `src/components/ArchitectureDiagram.astro`: labelled node-and-connection diagrams for each layer. Selection brings a plane forward; technology details highlight the corresponding nodes and connections. AWS is personal-project experience; Java is not a programming skill.
 - `src/components/SpatialExpertise.astro` and `src/styles/spatial.css`: five glass layers from sources to AI, with native radio selection, a layer inspector, technology details, and six animated data packets. The main overview and technology names remain readable without JavaScript.
-- `src/scripts/spatial-scene.ts`: layer inspection, pause/resume, pointer-driven depth, and lighting. CSS particle motion pauses outside the viewport, in hidden tabs, and while reading an individual layer; reduced-motion preferences disable it. No WebGL dependencies or JavaScript animation loop.
+- `src/scripts/spatial-scene.ts`: layer focus, inspection, technology highlighting, pause/resume, depth, and lighting. CSS particle motion pauses outside the viewport, in hidden tabs, and while focusing on a layer; reduced-motion preferences disable it. No WebGL dependencies or JavaScript animation loop.
 - `docs/research/datanerd-skills-2026-11-08.md`: dated market research used to choose which verified technologies to make prominent. Salary data is not published as a personal claim.
 - `src/scripts/visual-effects.ts`: scroll reveals, reading progress, and pointer-driven lighting; respects reduced-motion preferences and skips pointer effects on touch devices.
 - `assets/images/portfolio/<year>/`: preserved original archive files; keep these paths and bytes.

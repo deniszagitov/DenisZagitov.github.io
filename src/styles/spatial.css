@@ -4,13 +4,15 @@
     --layer-gap: 64px; --focus-lift: 0px;
     --scene-glass: rgb(229 238 219 / .52); --scene-glass-edge: rgb(105 131 100 / .36);
     --scene-ink: #557b51; --scene-core: #3e6646;
-    display: grid; grid-template-columns: 1.12fr 1fr; grid-template-areas: "scene directions" "actions directions" "foundation foundation";
+    display: grid; grid-template-columns: 1.12fr 1fr; grid-template-areas: "showcase directions" "foundation foundation";
     gap: 18px 48px; align-items: start; margin-top: 65px;
   }
   :root[data-theme='dark'] .spatial-expertise {
     --scene-glass: rgb(11 49 36 / .44); --scene-glass-edge: rgb(178 204 155 / .27);
     --scene-ink: #9bbf8c; --scene-core: #123b29;
   }
+  .spatial-showcase { grid-area: showcase; min-width: 0; align-self: start; }
+  .spatial-details-column { grid-area: directions; min-width: 0; }
   .spatial-visual {
     grid-area: scene; position: relative; min-width: 0; height: 620px; border: 1px solid var(--gold-line); border-radius: 32px; isolation: isolate; overflow: hidden;
     background: radial-gradient(ellipse at 55% 42%, color-mix(in srgb, var(--gold) 10%, transparent), transparent 64%), linear-gradient(135deg, color-mix(in srgb, var(--paper) 50%, transparent), color-mix(in srgb, var(--surface) 70%, transparent));
@@ -27,14 +29,14 @@
   .spatial-assembly {
     position: absolute; width: 300px; aspect-ratio: 8 / 7; left: 50%; top: 50%; transform-style: preserve-3d;
     transform: translate(-50%, -50%) rotateX(calc(54deg + var(--scene-x, 0deg))) rotateZ(calc(-32deg + var(--scene-y, 0deg)));
-    transition: transform .7s cubic-bezier(.2,.7,.25,1);
+    transition: transform .7s cubic-bezier(.2,.7,.25,1), width .7s cubic-bezier(.2,.7,.25,1);
   }
   .spatial-plane {
     position: absolute; inset: 0; border: 1px solid var(--scene-glass-edge); border-radius: 23px; transform-style: preserve-3d;
     color: var(--scene-ink); background: linear-gradient(135deg, color-mix(in srgb, var(--scene-glass) 75%, transparent), var(--scene-glass));
     box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gold-bright) 25%, transparent), 10px 14px 28px rgb(0 24 11 / .12);
     transform: translateZ(calc((var(--layer-index) - 2) * var(--layer-gap) + var(--focus-lift)));
-    transition: transform .7s cubic-bezier(.2,.7,.25,1), border-color .4s, background .4s, box-shadow .4s;
+    transition: transform .7s cubic-bezier(.2,.7,.25,1), opacity .45s, filter .45s, border-color .4s, background .4s, box-shadow .4s;
   }
   .spatial-plane::before { content: ''; position: absolute; inset: 5px; border: 1px solid color-mix(in srgb, var(--scene-glass-edge) 40%, transparent); border-radius: 18px; pointer-events: none; }
   .spatial-plane::after { content: ''; position: absolute; inset: 0; border-radius: inherit; border: 1px solid var(--scene-glass-edge); background: color-mix(in srgb, var(--scene-core) 18%, transparent); transform: translateZ(-5px); pointer-events: none; }
@@ -103,7 +105,7 @@
     box-shadow: inset 0 1px 0 var(--gold-bright), 0 0 22px color-mix(in srgb, var(--gold) 11%, transparent), 10px 17px 35px rgb(0 24 11 / .17);
   }
 
-  .spatial-actions { grid-area: actions; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 14px; }
+  .spatial-actions { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 14px; margin-top: 18px; }
   .spatial-actions button { display: inline-flex; align-items: center; justify-content: center; gap: 11px; min-height: 42px; padding: 10px 18px; border: 1px solid var(--gold-line); border-radius: 999px; background: transparent; font: 500 11px/1.5 var(--sans); transition: color .2s, border-color .2s, background .2s; }
   .spatial-actions .spatial-explore { background: var(--metal-fill); color: #193b2b; border-color: var(--gold); box-shadow: inset 0 1px 0 #fff5; }
   .spatial-actions .spatial-return { color: var(--accent); background: var(--glass); }
@@ -116,9 +118,7 @@
   .spatial-foundation span:first-child { font: 10px/1.7 var(--mono); color: var(--accent); }
   .spatial-foundation span:last-child { font-size: 10px; color: var(--muted); }
 
-  [data-view='inside'] .spatial-visual { height: auto; min-height: 620px; }
-  [data-view='inside'] .spatial-stage-caption, [data-view='inside'] .spatial-motion { display: none; }
-  .spatial-inspector { position: relative; padding: 63px 28px 30px; min-height: 620px; }
+  .spatial-inspector { position: relative; padding: 25px 0 0; margin-top: 26px; border-top: 1px solid var(--gold-line); }
   .spatial-inspector-eyebrow { color: var(--accent); font: 9px/1.7 var(--mono); letter-spacing: .12em; margin-bottom: 13px; }
   .spatial-inspector h3 { font-size: 27px; font-weight: 500; line-height: 1.2; letter-spacing: -.05em; }
   .spatial-inspector-intro { font-size: 12px; line-height: 1.8; color: var(--muted); margin-top: 17px; }
@@ -136,16 +136,47 @@
   .spatial-case-links a { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); font-size: 10px; }
   .spatial-case-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
 
+  /* Selection changes the camera and separates the active plane from the stack. */
+  .spatial-expertise[data-scene='focused'] .spatial-showcase { position: sticky; top: 112px; }
+  .spatial-expertise[data-scene='focused'] .spatial-visual { height: clamp(360px, calc(100svh - 230px), 620px); }
+  .spatial-expertise[data-scene='focused'] .spatial-assembly {
+    width: min(500px, calc(100% - 64px)); aspect-ratio: 9 / 7; top: 49%;
+    transform: translate(-50%, -50%) rotateX(calc(7deg + var(--scene-x, 0deg))) rotateZ(calc(-2deg + var(--scene-y, 0deg)));
+  }
+  .spatial-expertise[data-scene='focused'] .spatial-plane:not([data-selected]) {
+    opacity: .11; filter: blur(.5px); pointer-events: none;
+    transform: translate3d(0, calc(58px + var(--layer-index) * 7px), calc(-100px + var(--layer-index) * 4px)) scale(.84);
+  }
+  .spatial-expertise[data-scene='focused'] .spatial-plane[data-selected] {
+    opacity: 1; transform: translateZ(45px); border-color: var(--gold);
+    background: linear-gradient(145deg, var(--paper), color-mix(in srgb, var(--paper) 94%, var(--bg)));
+    box-shadow: 0 30px 55px -20px rgb(0 16 9 / .45), inset 0 1px 0 var(--gold-bright), 0 0 25px color-mix(in srgb, var(--gold) 9%, transparent);
+  }
+  .spatial-expertise[data-scene='focused'] .spatial-plane[data-selected] :is(.spatial-plane-art, .spatial-core, .spatial-plane-coordinate) { display: none; }
+  .spatial-expertise[data-scene='focused'] :is(.spatial-packet, .spatial-idea, .spatial-flow-axis, .spatial-motion) { display: none; }
+  .spatial-layer-diagram { position: absolute; inset: 0; width: 100%; height: 100%; transform: translateZ(1px); opacity: 0; visibility: hidden; }
+  .spatial-expertise[data-scene='focused'] .spatial-plane[data-selected] .spatial-layer-diagram { opacity: 1; visibility: visible; }
+  .spatial-layer-diagram marker path { fill: var(--accent); }
+  .diagram-edge { stroke: color-mix(in srgb, var(--accent) 65%, transparent); stroke-width: 1.2; transition: opacity .25s, stroke .25s; }
+  .diagram-node { transition: opacity .25s; }
+  .diagram-node rect { fill: var(--paper); stroke: var(--glass-border); stroke-width: 1; transition: fill .25s, stroke .25s; }
+  .diagram-node text { fill: var(--text); font: 500 14.5px var(--sans); letter-spacing: -.025em; }
+  .diagram-note { opacity: .8; }
+  .diagram-personal rect { stroke-dasharray: 3 3; stroke: var(--gold); }
+  [data-has-highlight='true'] .diagram-node:not([data-highlight]) { opacity: .6; }
+  [data-has-highlight='true'] .diagram-edge:not([data-highlight]) { opacity: .3; }
+  .diagram-node[data-highlight] rect { fill: color-mix(in srgb, var(--gold) 12%, var(--paper)); stroke: var(--gold); stroke-width: 1.5; }
+  .diagram-edge[data-highlight] { stroke: var(--gold); stroke-width: 1.8; }
+
   @media (max-width: 1100px) {
     .spatial-expertise { --layer-gap: 57px; gap: 16px 28px; grid-template-columns: 1fr 1fr; }
     .spatial-assembly { width: min(280px, calc(100% - 125px)); }
     .spatial-choice { gap: 10px; padding-inline: 12px; }
     .spatial-choice-copy > strong { font-size: 15px; }
-    .spatial-inspector { padding-inline: 22px; }
     .spatial-inspector h3 { font-size: 24px; }
   }
   @media (max-width: 760px) {
-    .spatial-expertise { --layer-gap: 43px; grid-template-columns: 1fr; grid-template-areas: "scene" "directions" "actions" "foundation"; gap: 28px; margin-top: 36px; }
+    .spatial-expertise { --layer-gap: 43px; grid-template-columns: 1fr; grid-template-areas: "showcase" "directions" "foundation"; gap: 28px; margin-top: 36px; }
     .spatial-visual { height: 490px; border-radius: 27px; }
     .spatial-assembly { width: min(280px, calc(100% - 110px)); top: 52%; }
     .spatial-stage-heading, .spatial-stage-caption { left: 21px; right: 21px; }
@@ -162,9 +193,11 @@
     .spatial-foundation { margin-top: 0; padding-top: 18px; }
     .spatial-foundation span:first-child { font-size: 9px; }
     .spatial-foundation span:last-child { font-size: 9px; }
-    [data-view='inside'] .spatial-visual, .spatial-inspector { min-height: 490px; }
-    .spatial-inspector { padding: 59px 23px 27px; }
+    .spatial-inspector { padding: 25px 0 0; }
     .spatial-inspector h3 { font-size: 27px; }
+    .spatial-expertise[data-scene='focused'] .spatial-showcase { position: static; }
+    .spatial-expertise[data-scene='focused'] .spatial-visual { height: 410px; }
+    .spatial-expertise[data-scene='focused'] .spatial-assembly { width: calc(100% - 36px); top: 49%; }
   }
   @media (max-width: 390px) {
     .spatial-core { width: 64px; height: 64px; top: calc(50% - 32px); left: calc(50% - 32px); }
@@ -180,6 +213,7 @@
     .spatial-visual::before, .spatial-packet { display: none; }
     .spatial-plane { transition: none; }
     .spatial-idea { animation: none; }
+    .spatial-expertise[data-scene='focused'] .spatial-assembly { transform: translate(-50%, -50%) rotateX(7deg) rotateZ(-2deg); }
   }
   @media print {
     .spatial-expertise { display: block; }

@@ -1,4 +1,5 @@
-// The stack is based on the user's CV and explicitly named Kafka Connect / CDC.
+// Based on the user's CV and explicit corrections: Kafka Connect / CDC, plus AWS
+// in a personal project. Java is project-stack experience, not a coding skill.
 // The context layer expresses the purpose of modelling and governance; it does
 // not imply that every technology belonged to one project or a deployed RAG app.
 export const architectureLayers = [
@@ -33,10 +34,11 @@ export const architectureLayers = [
       { name: 'Spark', ru: 'Распределённая обработка данных. В технологическом стеке архитектурных проектов Газпром нефти.', en: 'Distributed data processing, part of the Gazprom Neft architecture project stack.' },
       { name: 'SQL', ru: 'Модели, преобразования, витрины и работа со связями между данными.', en: 'Models, transformations, data marts, and relationships between data.' },
       { name: 'Data Vault 2.0', ru: 'Подход к моделированию ядра хранилища, применённый в платформе данных Сбера.', en: 'A warehouse modelling approach applied to the core of the Sber data platform.' },
+      { name: 'AWS', ru: 'Практический опыт с AWS в личном домашнем проекте.', en: 'Practical AWS experience from a personal home project.' },
     ],
     experience: ['adviva', 'sber', 'gazprom-neft'],
-    ru: { title: 'Платформа и модели данных', summary: 'Хранение, распределённая обработка и преобразование данных в полезные модели.', detail: 'Здесь поток становится частью платформы: данные хранятся, преобразуются и связываются в модели и витрины. Технологии отражают опыт разных проектов.', example: 'NRT-платформа ADVIVA; Greenplum и Data Vault 2.0 в Сбере; распределённая обработка в стеке Газпром нефти.' },
-    en: { title: 'Data platform & models', summary: 'Storage, distributed processing, and transformation into useful data models.', detail: 'Streams become a platform: data is stored, transformed, and connected into models and marts. The technologies reflect experience across different projects.', example: 'The ADVIVA NRT platform; Greenplum and Data Vault 2.0 at Sber; distributed processing in the Gazprom Neft stack.' },
+    ru: { title: 'Платформа и модели данных', summary: 'Хранение, распределённая обработка и преобразование данных в полезные модели.', detail: 'Здесь поток становится частью платформы: данные хранятся, преобразуются и связываются в модели и витрины. Технологии отражают опыт разных проектов.', example: 'NRT-платформа ADVIVA; Greenplum и Data Vault 2.0 в Сбере; распределённая обработка в стеке Газпром нефти. AWS — практика в личном проекте.' },
+    en: { title: 'Data platform & models', summary: 'Storage, distributed processing, and transformation into useful data models.', detail: 'Streams become a platform: data is stored, transformed, and connected into models and marts. The technologies reflect experience across different projects.', example: 'The ADVIVA NRT platform; Greenplum and Data Vault 2.0 at Sber; distributed processing in the Gazprom Neft stack. AWS experience comes from a personal project.' },
   },
   {
     id: 'context', number: '04', label: 'CONTEXT', caption: 'ENTITIES / MEANING / TRUST',
@@ -67,16 +69,16 @@ export const architectureLayers = [
 export type ArchitectureLayerId = typeof architectureLayers[number]['id'];
 export const architectureCopy = {
   ru: {
-    heading: 'От данных — к интеллекту.', instruction: 'Выберите слой и загляните внутрь.',
+    heading: 'От данных — к интеллекту.', instruction: 'Выберите слой — схема развернётся к вам.',
     scene: 'Интерактивная карта архитектуры данных и AI', caption: 'Данные обретают смысл.',
-    open: 'Посмотреть слой', back: 'Вся архитектура', pause: 'Пауза', play: 'Запустить поток', static: 'Статичный режим',
+    open: 'Технологии и опыт', collapse: 'Свернуть описание', back: 'Вся архитектура', pause: 'Пауза', play: 'Запустить поток', static: 'Статичный режим',
     motion: 'Движение данных', inside: 'ВНУТРИ СЛОЯ', details: 'Технологии и мой опыт', case: 'В моём опыте',
     orchestration: 'Оркестрация процессов', foundation: 'Инженерная основа',
   },
   en: {
-    heading: 'From data to intelligence.', instruction: 'Choose a layer and explore what is inside.',
+    heading: 'From data to intelligence.', instruction: 'Choose a layer to bring its diagram into focus.',
     scene: 'Interactive map of data and AI architecture', caption: 'Data becomes meaning.',
-    open: 'Explore this layer', back: 'Whole architecture', pause: 'Pause', play: 'Start the flow', static: 'Still mode',
+    open: 'Technologies & experience', collapse: 'Collapse description', back: 'Whole architecture', pause: 'Pause', play: 'Start the flow', static: 'Still mode',
     motion: 'Data movement', inside: 'INSIDE THE LAYER', details: 'Technologies and my experience', case: 'In my experience',
     orchestration: 'Workflow orchestration', foundation: 'Engineering foundation',
   },

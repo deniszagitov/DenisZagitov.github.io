@@ -1,0 +1,19 @@
+---
+import { architectureDiagrams } from '../data/architecture-diagrams';
+import type { ArchitectureLayerId } from '../data/architecture';
+import type { Locale } from '../data/profile';
+interface Props { layer: ArchitectureLayerId; locale: Locale; }
+const { layer, locale } = Astro.props;
+const diagram = architectureDiagrams[layer];
+const marker = 'diagram-arrow-' + layer;
+---
+<svg class="spatial-layer-diagram" viewBox="0 0 360 280" role="img" aria-label={diagram.description[locale]}>
+  <defs><marker id={marker} markerWidth="6" markerHeight="6" refX="5.5" refY="3" orient="auto"><path d="M0 0 6 3 0 6Z" /></marker></defs>
+  <g class="diagram-edges" fill="none">{diagram.edges.map(edge => <path class="diagram-edge" data-from={edge.from} data-to={edge.to} d={edge.path} marker-end={'url(#' + marker + ')'} />)}</g>
+  {diagram.nodes.map(node => <g class:list={['diagram-node', { 'diagram-personal': node.personal }]} data-node-id={node.id} data-technologies={node.technologies.join('|')}>
+    <rect x={node.x} y={node.y} width={node.width} height={node.height} rx="8" />
+    <text x={node.x + node.width / 2} y={node.y + node.height / 2 - (node.labels[locale].length - 1) * 9 + 5} text-anchor="middle">
+      {node.labels[locale].map((line, index) => <tspan class:list={{ 'diagram-note': node.personal && index > 0 }} x={node.x + node.width / 2} dy={index === 0 ? 0 : 18}>{line}</tspan>)}
+    </text>
+  </g>)}
+</svg>

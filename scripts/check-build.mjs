@@ -26,7 +26,8 @@ const pages = (await filesIn(dist)).filter(path => path.endsWith('.html'));
 let internalLinks = 0;
 for (const path of pages) {
   const html = await readFile(path, 'utf8');
-  const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map(match => match[1]);
+  // Require attribute whitespace so data-node-id is not mistaken for an id.
+  const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map(match => match[1]);
   assert.equal(ids.length, new Set(ids).size, `Duplicate IDs in ${path}`);
   assert(!html.includes('Paper Title Number'), `Template content in ${path}`);
   for (const match of html.matchAll(/\b(?:href|src)="(\/[^"<>]*)"/g)) {

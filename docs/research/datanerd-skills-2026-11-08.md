@@ -8,7 +8,7 @@ Source: https://datanerd.tech/skills?title=Senior+Data+Engineer&country=United+S
 
 Filters observed in the live UI: Senior Data Engineer; United States; Last Year; all job types; all skill categories; Optimal Skills view. The UI showed approximately 47.1K matched job postings. It did not expose a separate salary-sample count in the tooltips.
 
-| Skill present in the CV | Job-posting share | Median salary shown, USD/year |
+| Technology mentioned in the CV | Job-posting share | Median salary shown, USD/year |
 | --- | ---: | ---: |
 | Java | 21.4% | 184,500 |
 | Python | 70.9% | 168,000 |
@@ -27,7 +27,9 @@ Methodology and coverage: https://datanerd.tech/about
 
 The user-supplied four-page CV was read and its relevant pages visually inspected. No copy of the PDF or contact details is added to the repository.
 
-- Java, Python, SQL, Kafka and Airflow: Sber; Python, Java, Spark, Kafka and Airflow also appear in the Gazprom Neft stack.
+- Python, SQL, Kafka and Airflow: Sber; Python, Spark, Kafka and Airflow also appear in the Gazprom Neft stack.
+- User correction: Java appears in project technology lists, but Denis designed systems using it and does not claim Java programming proficiency. The historical salary observation above remains a market statistic; Java is excluded from the website's personal programming presentation.
+- User addition: practical AWS experience from a personal home project. That scope is identified without inventing services, certifications, or employer deployments.
 - ClickHouse: ADVIVA's NRT pipelines, approximately 50 TB of compressed data with the DWH Core Team; also present in earlier project stacks.
 - Greenplum and Data Vault 2.0: Sber's layered data platform and warehouse modelling.
 - Kubernetes, Docker, NiFi and PostgreSQL/PostGIS: explicitly present in the CV.
@@ -35,4 +37,4 @@ The user-supplied four-page CV was read and its relevant pages visually inspecte
 - Kafka Connect and CDC: explicitly named by the user in this conversation. No specific CDC implementation or employer association is invented.
 - The context layer describes data modelling, governance, data lifecycle and MDM as foundations for AI context. It does not claim a deployed retrieval/RAG product.
 
-The five layers combine experience across projects. Deep views link to the corresponding career entries. Airflow is shown as workflow orchestration; Python, SQL and Java form a visible engineering foundation. The website does not display salary figures or label unverified cloud products as personal experience.
+The five layers combine experience across projects. Deep views link to the corresponding career entries. Airflow is shown as workflow orchestration; Python and SQL form the visible engineering foundation. AWS is a separate personal-project node. The website does not display salary figures or label unverified cloud products as personal experience.

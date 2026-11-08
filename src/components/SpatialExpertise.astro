@@ -2,6 +2,7 @@
 import { architectureLayers, architectureCopy } from '../data/architecture';
 import { experience, homePath, type Locale } from '../data/profile';
 import Icon from './Icon.astro';
+import ArchitectureDiagram from './ArchitectureDiagram.astro';
 import '../styles/spatial.css';
 interface Props { locale: Locale; }
 const { locale } = Astro.props;
@@ -10,14 +11,15 @@ const points = [[65, 89], [115, 68], [165, 91], [221, 65], [262, 96], [84, 151],
 const connections = [[0, 1], [0, 5], [1, 2], [1, 6], [2, 3], [2, 6], [2, 7], [3, 4], [3, 8], [4, 8], [5, 6], [5, 9], [5, 10], [6, 7], [6, 10], [7, 8], [7, 11], [7, 12], [8, 12], [8, 13], [9, 10], [10, 11], [11, 12], [12, 13]];
 const streams = [[-86, 44], [76, 34], [-64, -49], [82, -39], [24, 65], [-27, 67]];
 ---
-<div class="spatial-expertise" id="expertise" data-architecture data-view="overview">
+<div class="spatial-expertise" id="expertise" data-architecture data-view="overview" data-scene="stack">
+  <div class="spatial-showcase">
   <div class="spatial-visual" data-spatial-stage role="group" aria-label={c.scene}>
     <div class="spatial-stage-heading" aria-hidden="true"><span>D / Z</span><span>DATA → INTELLIGENCE</span></div>
     <div class="spatial-perspective" aria-hidden="true">
       <div class="spatial-assembly">
         {architectureLayers.map((layer, index) => <div class:list={['spatial-plane', 'spatial-plane-' + layer.id]} style={'--layer-index: ' + index + ';'} data-plane={layer.id}>
           <span class="spatial-plane-label"><span>{layer.number}</span>{layer.label}</span>
-          <svg class:list={['spatial-plane-art', { 'spatial-neural': layer.id === 'ai' }]} viewBox="0 0 320 280" fill="none">
+          <svg class:list={['spatial-plane-art', { 'spatial-neural': layer.id === 'ai' }]} viewBox="0 0 320 280" fill="none" aria-hidden="true">
             {layer.id === 'sources' && <>
               {[[65, 101], [160, 150], [253, 106], [95, 209], [233, 207]].map(([x, y]) => <g><ellipse cx={x} cy={y - 12} rx="19" ry="7" /><path d={'M' + (x - 19) + ' ' + (y - 12) + 'v23c0 9 38 9 38 0v-23M' + (x - 19) + ' ' + y + 'c0 9 38 9 38 0'} /></g>)}
               <path class="spatial-trace" d="M84 101h31v49h26m38 0h33v-44h22M114 209h46v-40m19-19h24v57h11" />
@@ -41,6 +43,7 @@ const streams = [[-86, 44], [76, 34], [-64, -49], [82, -39], [24, 65], [-27, 67]
               {points.map(([x, y], i) => <circle class:list={['spatial-node', { 'spatial-node-bright': i % 3 === 0 }]} cx={x} cy={y} r={i % 3 === 0 ? 4 : 2.5} />)}
             </>}
           </svg>
+          <ArchitectureDiagram layer={layer.id} locale={locale} />
           {layer.id === 'ai' && <div class="spatial-core"><div class="spatial-core-front"></div><div class="spatial-core-side"></div><div class="spatial-core-top"><span>AI</span><svg viewBox="0 0 60 60" fill="none"><path d="M8 20V8h12m20 0h12v12m0 20v12H40m-20 0H8V40" /></svg></div></div>}
           <span class="spatial-plane-coordinate">{layer.caption}</span>
         </div>)}
@@ -49,17 +52,15 @@ const streams = [[-86, 44], [76, 34], [-64, -49], [82, -39], [24, 65], [-27, 67]
         <span class="spatial-idea"><Icon name="sparkle" size={25} /></span>
       </div>
     </div>
-    <div class="spatial-inspector" id="architecture-inspector" hidden>
-      {architectureLayers.map(layer => <section data-layer-panel={layer.id} hidden={layer.id !== 'ai'} aria-label={layer[locale].title}>
-        <p class="spatial-inspector-eyebrow">{c.inside} / {layer.number}</p>
-        <h3 tabindex="-1">{layer[locale].title}</h3>
-        <p class="spatial-inspector-intro">{layer[locale].detail}</p>
-        <div class="spatial-technology-list" aria-label={c.details}>{layer.technologies.map(technology => <details><summary>{technology.name}<span aria-hidden="true">+</span></summary><p>{technology[locale]}</p></details>)}</div>
-        <div class="spatial-case"><span>{c.case}</span><p>{layer[locale].example}</p><div class="spatial-case-links">{layer.experience.map(id => experience.find(job => job.id === id)).filter(job => job !== undefined).map(job => <a href={homePath(locale) + '#career-' + job.id}>{locale === 'en' && 'companyEn' in job ? job.companyEn : job.company}<Icon name="arrow" size={12} /></a>)}</div></div>
-      </section>)}
-    </div>
     <div class="spatial-stage-caption" aria-hidden="true"><span>{c.caption}</span><Icon name="layers" size={22} /></div>
   </div>
+  <div class="spatial-actions">
+    <button type="button" class="spatial-explore" data-open-layer data-open-label={c.open} data-collapse-label={c.collapse} aria-controls="architecture-inspector" aria-expanded="false" hidden><span data-inspector-label>{c.open}</span><Icon name="arrow" size={15} /></button>
+    <button type="button" class="spatial-return" data-close-layer hidden><Icon name="chevron-left" size={15} />{c.back}</button>
+    <button type="button" class="spatial-motion" data-toggle-flow aria-label={c.motion} aria-pressed="true" data-pause-label={c.pause} data-play-label={c.play} data-static-label={c.static} hidden><span data-motion-icon="pause"><Icon name="pause" size={13} /></span><span data-motion-icon="play" hidden><Icon name="play" size={13} /></span><span data-motion-label>{c.pause}</span></button>
+  </div>
+  </div>
+  <div class="spatial-details-column">
   <fieldset class="spatial-directions">
     <legend>{c.heading}</legend>
     <p class="spatial-instruction">{c.instruction}</p>
@@ -70,11 +71,16 @@ const streams = [[-86, 44], [76, 34], [-64, -49], [82, -39], [24, 65], [-27, 67]
       <span class="spatial-choice-dot" aria-hidden="true"></span>
     </label>)}
   </fieldset>
-  <div class="spatial-actions">
-    <button type="button" class="spatial-explore" data-open-layer aria-controls="architecture-inspector" aria-expanded="false" hidden>{c.open}<Icon name="arrow" size={15} /></button>
-    <button type="button" class="spatial-return" data-close-layer hidden><Icon name="chevron-left" size={15} />{c.back}</button>
-    <button type="button" class="spatial-motion" data-toggle-flow aria-label={c.motion} aria-pressed="true" data-pause-label={c.pause} data-play-label={c.play} data-static-label={c.static} hidden><span data-motion-icon="pause"><Icon name="pause" size={13} /></span><span data-motion-icon="play" hidden><Icon name="play" size={13} /></span><span data-motion-label>{c.pause}</span></button>
+    <div class="spatial-inspector" id="architecture-inspector" hidden>
+      {architectureLayers.map(layer => <section data-layer-panel={layer.id} hidden={layer.id !== 'ai'} aria-label={layer[locale].title}>
+        <p class="spatial-inspector-eyebrow">{c.inside} / {layer.number}</p>
+        <h3 tabindex="-1">{layer[locale].title}</h3>
+        <p class="spatial-inspector-intro">{layer[locale].detail}</p>
+        <div class="spatial-technology-list" aria-label={c.details}>{layer.technologies.map(technology => <details data-technology={technology.name}><summary>{technology.name}<span aria-hidden="true">+</span></summary><p>{technology[locale]}</p></details>)}</div>
+        <div class="spatial-case"><span>{c.case}</span><p>{layer[locale].example}</p><div class="spatial-case-links">{layer.experience.map(id => experience.find(job => job.id === id)).filter(job => job !== undefined).map(job => <a href={homePath(locale) + '#career-' + job.id}>{locale === 'en' && 'companyEn' in job ? job.companyEn : job.company}<Icon name="arrow" size={12} /></a>)}</div></div>
+      </section>)}
+    </div>
   </div>
-  <div class="spatial-foundation"><div><span>Airflow</span><span>{c.orchestration}</span></div><div><span>Python · SQL · Java</span><span>{c.foundation}</span></div></div>
+  <div class="spatial-foundation"><div><span>Airflow</span><span>{c.orchestration}</span></div><div><span>Python · SQL</span><span>{c.foundation}</span></div></div>
 </div>
 <script src="../scripts/spatial-scene.ts"></script>
