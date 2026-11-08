@@ -4,7 +4,7 @@ import '../styles/global.css';
 import '../styles/heritage.css';
 import { content, homePath, archivePath, type Locale } from '../data/profile';
 import Icon from '../components/Icon.astro';
-import { pageSchema, pagePairs } from '../data/seo';
+import { pageSchema, pagePairs, googleSiteVerification } from '../data/seo';
 import languagePreference from '../scripts/language-preference.js?raw';
 interface Props { locale: Locale; title?: string; description?: string; section?: 'home' | 'archive' | 'cv'; noindex?: boolean; }
 const { locale, title, description, section = 'home', noindex = false } = Astro.props;
@@ -25,6 +25,7 @@ const schema = pageSchema({ locale, site: Astro.site!, path: Astro.url.pathname,
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
     <meta name="author" content={c.name} />
+    <meta name="google-site-verification" content={googleSiteVerification} />
     <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
     <link rel="canonical" href={absolute(Astro.url.pathname)} />
     {isPairedPage && <>

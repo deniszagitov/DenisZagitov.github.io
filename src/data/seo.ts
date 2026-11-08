@@ -2,6 +2,8 @@ import { content, experience, homePath, type Locale } from './profile';
 
 // Change this date only when the public profile content changes, not on each build.
 export const profileUpdated = '2026-11-08';
+// Public ownership proof issued by Google Search Console. Keep after verification.
+export const googleSiteVerification = 'KBOI-DAmGrpufWEV2yBgb2PFdLeZTDg46pABKXbFsho';
 export const pagePairs = [['/', '/en/'], ['/cv/', '/en/cv/'], ['/portfolio/', '/en/portfolio/']] as const;
 export const publicProfiles = [
   'https://www.linkedin.com/in/deniszagitov/',
