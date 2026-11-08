@@ -5,6 +5,7 @@ import '../styles/heritage.css';
 import { content, homePath, archivePath, type Locale } from '../data/profile';
 import Icon from '../components/Icon.astro';
 import { pageSchema, pagePairs } from '../data/seo';
+import languagePreference from '../scripts/language-preference.js?raw';
 interface Props { locale: Locale; title?: string; description?: string; section?: 'home' | 'archive' | 'cv'; noindex?: boolean; }
 const { locale, title, description, section = 'home', noindex = false } = Astro.props;
 const c = content[locale];
@@ -51,6 +52,7 @@ const schema = pageSchema({ locale, site: Astro.site!, path: Astro.url.pathname,
     <meta name="twitter:description" content={pageDescription} />
     <meta name="twitter:image" content={absolute('/media/social.png')} />
     <meta name="twitter:image:alt" content={`${c.name} — ${c.role}`} />
+    {isPairedPage && <script is:inline data-language-preference set:html={languagePreference} />}
     <script is:inline>
       (() => {
         let choice = 'system';
@@ -74,7 +76,7 @@ const schema = pageSchema({ locale, site: Astro.site!, path: Astro.url.pathname,
           <a href={`${homePath(locale)}#contact`}>{c.nav.contact}</a>
         </nav>
         <div class="header-controls">
-          <a class="language-switch" href={translatedPath(otherLocale)} lang={otherLocale} hreflang={otherLocale} aria-label={locale === 'ru' ? 'Switch to English' : 'Переключить на русский'}>{locale === 'ru' ? 'EN' : 'RU'} <span aria-hidden="true">↗</span></a>
+          <a class="language-switch" href={`${translatedPath(otherLocale)}?lang=${otherLocale}`} lang={otherLocale} hreflang={otherLocale} aria-label={locale === 'ru' ? 'Switch to English' : 'Переключить на русский'}>{locale === 'ru' ? 'EN' : 'RU'} <span aria-hidden="true">↗</span></a>
           <details class="theme-picker">
             <summary aria-label={c.theme} title={c.theme}><span class="theme-light-icon"><Icon name="sun" /></span><span class="theme-dark-icon"><Icon name="moon" /></span></summary>
             <div class="theme-menu" role="group" aria-label={c.theme}>

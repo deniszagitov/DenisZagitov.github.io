@@ -15,7 +15,7 @@
     "prebuild": "npm run prepare:assets",
     "build": "astro build",
     "preview": "astro preview --host 127.0.0.1",
-    "verify": "node scripts/check-build.mjs",
+    "verify": "node scripts/check-build.mjs && node scripts/check-language.mjs",
     "notify:search": "node scripts/notify-search.mjs"
   },
   "dependencies": {

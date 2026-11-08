@@ -2,6 +2,8 @@
 
 A personal presentation site built with Astro and TypeScript. Russian is the primary language; English lives under `/en/`. The design has light, dark, and system appearance settings.
 
+Opening `/` chooses the first supported language from the browser's ordered preferences (`navigator.languages`, with `navigator.language` as fallback); unsupported languages fall back to English. Explicit RU/EN choices are saved as `dz-language` and take priority on later visits to `/`. The switch passes `?lang=ru` or `?lang=en`; the head script saves it and removes the parameter while preserving other query parameters and fragments. If storage is blocked, the explicit parameter stays to keep that choice usable without a redirect loop. Direct language URLs, résumé/archive links, original documents and untranslated materials are not automatically redirected. Static HTML, canonical URLs and `hreflang` remain available without JavaScript. Locale negotiation runs only at the general homepage entry point, rather than on every translated URL.
+
 ## Local development
 
 ```sh
@@ -45,6 +47,7 @@ The build is static and outputs to `dist/`. GitHub Pages publishes the `master` 
 - `docs/research/datanerd-skills-2026-11-08.md`: dated market research used to choose which verified technologies to make prominent. Salary data is not published as a personal claim.
 - `docs/research/profile-positioning-and-discovery-2026-11-08.md`: evidence boundaries, search intent, and discovery implementation decisions.
 - `src/scripts/visual-effects.ts`: scroll reveals, reading progress, and pointer-driven lighting; respects reduced-motion preferences and skips pointer effects on touch devices.
+- `src/scripts/language-preference.js`: early homepage language negotiation and explicit preference handling, embedded directly in the head. `scripts/check-language.mjs` exercises the actual built script against locale, navigation, and blocked-storage scenarios.
 - `assets/images/portfolio/<year>/`: preserved original archive files; keep these paths and bytes.
 - `_portfolio/`: original metadata retained as the mapping for existing public diploma URLs.
 - `images/profile.png`: preserved source portrait.
