@@ -105,12 +105,6 @@
   .profile-text .lead { font-size: 20px; line-height: 1.6; letter-spacing: -.025em; }
   .profile-text > p:not(.lead) { font-size: 14px; }
   .profile-text .personal-note { border-color: var(--gold-line); }
-  .expertise-grid { gap: 18px; }
-  .expertise-item { border: 1px solid var(--glass-border); border-radius: 23px; padding: 25px; background: color-mix(in srgb, var(--paper) 42%, transparent); box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gold-bright) 13%, transparent); transition: border-color .3s, box-shadow .3s, transform .3s; }
-  .expertise-item .item-number { color: var(--accent); }
-  .expertise-item p { font-size: 13px; }
-  .expertise-item .technology-line { font-size: 10px; }
-  .expertise-item:hover { border-color: var(--gold); transform: translateY(-5px); box-shadow: var(--glass-shadow), 0 16px 35px -20px color-mix(in srgb, var(--gold) 25%, transparent); }
 
   .experience-section { background: linear-gradient(125deg, var(--surface), color-mix(in srgb, var(--surface) 55%, var(--bg))); border-block: 1px solid var(--gold-line); }
   .timeline-period { color: var(--faint); }
@@ -152,16 +146,15 @@
   .header-inner::after { content: ''; position: absolute; top: 0; left: 8%; right: 8%; height: 1px; pointer-events: none; background: linear-gradient(90deg, transparent, var(--gold-bright), transparent); opacity: .55; }
   .hero-portrait::before { content: ''; position: absolute; inset: -28px -26px 20px -26px; z-index: -1; pointer-events: none; background: radial-gradient(ellipse at 80% 25%, color-mix(in srgb, var(--gold) 14%, transparent), transparent 60%), radial-gradient(ellipse at 15% 80%, var(--ambient), transparent 58%); filter: blur(18px); }
   .portrait-frame[data-lux-active='true'] { box-shadow: 0 48px 85px -30px rgb(0 23 13 / .48), 0 0 32px -12px color-mix(in srgb, var(--gold) 32%, transparent), inset 0 1px 0 var(--gold-line); }
-  .expertise-item, .hero-facts, .contact-grid { position: relative; overflow: hidden; isolation: isolate; }
-  .expertise-item::after, .hero-facts::after, .contact-grid::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 2; background: radial-gradient(360px circle at var(--shine-x, 50%) var(--shine-y, 25%), var(--surface-glint), transparent 72%); opacity: 0; transition: opacity .45s ease; }
-  :is(.expertise-item, .hero-facts, .contact-grid)[data-lux-active='true']::after { opacity: .6; }
-  .expertise-item[data-lux-active='true'] { box-shadow: 0 22px 45px -25px color-mix(in srgb, var(--gold) 28%, transparent), inset 0 1px 0 var(--gold-line); }
+  .hero-facts, .contact-grid { position: relative; overflow: hidden; isolation: isolate; }
+  .hero-facts::after, .contact-grid::after { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 2; background: radial-gradient(360px circle at var(--shine-x, 50%) var(--shine-y, 25%), var(--surface-glint), transparent 72%); opacity: 0; transition: opacity .45s ease; }
+  :is(.hero-facts, .contact-grid)[data-lux-active='true']::after { opacity: .6; }
   .button.primary::after { content: ''; position: absolute; inset: -35% -10%; background: linear-gradient(110deg, transparent 38%, #fff9 50%, transparent 62%); opacity: 0; transform: translateX(-130%); pointer-events: none; }
   .button.primary svg { transition: transform .3s; }
   .hero-actions .button.primary:hover svg { transform: translateY(2px); }
 
   @supports (mask-composite: exclude) {
-    .portrait-frame::before, .expertise-item::before, .hero-facts::before, .contact-grid::before {
+    .portrait-frame::before, .hero-facts::before, .contact-grid::before {
       content: ''; position: absolute; inset: 0; padding: 1px; border: 0; border-radius: inherit; pointer-events: none; z-index: 3;
       background: conic-gradient(from var(--light-angle, 145deg), transparent 0deg, color-mix(in srgb, var(--gold) 18%, transparent) 45deg, var(--gold-bright) 83deg, var(--gold) 102deg, transparent 150deg, transparent 220deg, color-mix(in srgb, var(--gold) 65%, transparent) 275deg, transparent 330deg);
       mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
@@ -169,7 +162,7 @@
       opacity: .42; transition: opacity .4s;
     }
     .portrait-frame::before { opacity: .85; }
-    :is(.portrait-frame, .expertise-item, .hero-facts, .contact-grid)[data-lux-active='true']::before { opacity: 1; }
+    :is(.portrait-frame, .hero-facts, .contact-grid)[data-lux-active='true']::before { opacity: 1; }
   }
   @media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
     .button.primary:hover::after, .button.primary:focus-visible::after { animation: gold-sweep .95s cubic-bezier(.2,.6,.3,1); }
@@ -177,8 +170,7 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .portrait-frame { transform: none; }
-    .expertise-item:hover { transform: none; }
-    .portrait-frame::after, .expertise-item::after, .hero-facts::after, .contact-grid::after, .button.primary::after { display: none; }
+    .portrait-frame::after, .hero-facts::after, .contact-grid::after, .button.primary::after { display: none; }
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -192,7 +184,6 @@
   @media (hover: none) {
     .portrait-frame { transform: none; }
     .portrait-frame::after { display: none; }
-    .expertise-item:hover { transform: none; }
   }
   @media (min-width: 1500px) { .hero h1 { font-size: 116px; } .portrait-frame img { height: 530px; } }
   @media (max-width: 1100px) {
@@ -231,10 +222,6 @@
     .fact-note { font-size: 9px; }
     .profile-grid h2 { font-size: 37px; }
     .profile-text .lead { font-size: 18px; }
-    .expertise-grid { gap: 13px; }
-    .expertise-item { padding: 22px 19px; border-radius: 20px; }
-    .expertise-item h3 { font-size: 17px; }
-    .expertise-item .technology-line { font-size: 9px; }
     .approach-grid { gap: 30px; }
     .contact-grid { padding: 27px 23px; border-radius: 25px; gap: 25px; }
     .contact-grid h2 { font-size: 36px; }

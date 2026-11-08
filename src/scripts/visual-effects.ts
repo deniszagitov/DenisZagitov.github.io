@@ -1,4 +1,5 @@
 // Progressive visual enhancements; the page remains readable without JavaScript.
+export {};
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
 const root = document.documentElement;
@@ -12,7 +13,7 @@ if (!reducedMotion.matches && 'IntersectionObserver' in window) {
       observer.unobserve(entry.target);
     }
   }, { threshold: 0.12 });
-  document.querySelectorAll<HTMLElement>('.expertise-item, .approach-grid article, .contact-grid').forEach((element, index) => {
+  document.querySelectorAll<HTMLElement>('.spatial-expertise, .approach-grid article, .contact-grid').forEach((element, index) => {
     element.dataset.reveal = 'true';
     element.style.setProperty('--reveal-delay', `${(index % 3) * 80}ms`);
     observer.observe(element);
@@ -48,7 +49,7 @@ reducedMotion.addEventListener('change', resetAmbient);
 finePointer.addEventListener('change', resetAmbient);
 window.addEventListener('blur', resetAmbient);
 
-document.querySelectorAll<HTMLElement>('[data-tilt], .expertise-item, .hero-facts, .contact-grid').forEach(element => {
+document.querySelectorAll<HTMLElement>('[data-tilt], .hero-facts, .contact-grid').forEach(element => {
   let frame = 0;
   const reset = () => {
     cancelAnimationFrame(frame);

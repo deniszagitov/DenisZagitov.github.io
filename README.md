@@ -34,6 +34,8 @@ The build is static and outputs to `dist/`, ready for GitHub Pages. This branch 
 - `src/layouts/SiteLayout.astro`: shared navigation, metadata, appearance, and language links.
 - `src/styles/global.css`: typography, responsive layout, both colour themes, and printing.
 - `src/styles/heritage.css`: emerald/gold appearance, polished metal, glass surfaces, and responsive lighting effects.
+- `src/components/SpatialExpertise.astro` and `src/styles/spatial.css`: an interactive CSS 3D composition of data, AI, and architecture. Native radio controls change the highlighted layer without JavaScript; all expertise text stays visible.
+- `src/scripts/spatial-scene.ts`: pointer-driven depth and lighting for the spatial composition, with reduced-motion and touch-device fallbacks. No WebGL dependencies or continuous rendering.
 - `src/scripts/visual-effects.ts`: scroll reveals, reading progress, and pointer-driven lighting; respects reduced-motion preferences and skips pointer effects on touch devices.
 - `assets/images/portfolio/<year>/`: preserved original archive files; keep these paths and bytes.
 - `_portfolio/`: original metadata retained as the mapping for existing public diploma URLs.

@@ -111,12 +111,6 @@
   .profile-text { color: var(--muted); font-size: 13px; }
   .profile-text .lead { font-size: 19px; color: var(--text); line-height: 1.6; letter-spacing: -.02em; margin-bottom: 20px; }
   .profile-text .personal-note { margin-top: 23px; padding-top: 20px; border-top: 1px solid var(--line); font-size: 12px; }
-  .expertise-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; margin-top: 59px; }
-  .expertise-item { border-top: 1px solid var(--line); padding-top: 21px; }
-  .item-number { font: 10px var(--mono); color: var(--faint); }
-  .expertise-item h3 { margin-top: 16px; }
-  .expertise-item p { font-size: 12px; color: var(--muted); margin-top: 12px; max-width: 290px; }
-  .expertise-item .technology-line { font: 9px/1.9 var(--mono); margin-top: 19px; color: var(--faint); }
   .experience-section { background: var(--surface); }
   .section-heading-row { display: flex; justify-content: space-between; gap: 32px; align-items: flex-end; }
   .section-intro { font-size: 12px; color: var(--muted); margin-top: 20px; max-width: 380px; }
@@ -260,12 +254,6 @@
     .section-label { margin-bottom: 28px; font-size: 9px; }
     .profile-grid { grid-template-columns: 1fr; gap: 26px; }
     .profile-text .lead { font-size: 18px; }
-    .expertise-grid { grid-template-columns: 1fr; gap: 24px; margin-top: 36px; }
-    .expertise-item { display: grid; grid-template-columns: 26px 1fr; column-gap: 10px; padding-top: 20px; }
-    .item-number { grid-row: 1/4; padding-top: 5px; }
-    .expertise-item h3 { margin-top: 0; }
-    .expertise-item p { max-width: none; }
-    .expertise-item .technology-line { margin-top: 13px; }
     .section-heading-row { display: block; }
     .section-heading-row > .text-link { margin-top: 18px; }
     .timeline { margin-top: 30px; }

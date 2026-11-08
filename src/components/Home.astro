@@ -1,6 +1,7 @@
 ---
 import SiteLayout from '../layouts/SiteLayout.astro';
 import Icon from './Icon.astro';
+import SpatialExpertise from './SpatialExpertise.astro';
 import { content, experience, archivePath, resumePath, documentCount, type Locale } from '../data/profile';
 import diplomas from '../data/diplomas.json';
 interface Props { locale: Locale; }
@@ -28,7 +29,7 @@ const previews = selectedYears.map(year => diplomas.filter(d => d.year === year 
   <section class="profile section container" id="about" aria-labelledby="profile-heading">
     <div class="section-label"><span>{c.profileLabel}</span><span class="section-line" aria-hidden="true"></span></div>
     <div class="profile-grid"><h2 id="profile-heading">{c.profileHeading}</h2><div class="profile-text"><p class="lead">{c.profileLead}</p><p>{c.profileBody}</p><p class="personal-note">{c.personal}</p></div></div>
-    <div class="expertise-grid">{c.expertise.map(item => <article class="expertise-item"><span class="item-number">{item.number}</span><h3>{item.title}</h3><p>{item.text}</p><p class="technology-line">{item.tags}</p></article>)}</div>
+    <SpatialExpertise locale={locale} />
   </section>
 
   <section class="experience-section section" id="experience" aria-labelledby="experience-heading"><div class="container">

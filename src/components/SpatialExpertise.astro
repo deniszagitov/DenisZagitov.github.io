@@ -1,0 +1,69 @@
+---
+import { content, type Locale } from '../data/profile';
+import '../styles/spatial.css';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const c = content[locale];
+const layers = ['data', 'ai', 'architecture'];
+const nodes = [
+  [63, 85], [112, 60], [164, 85], [218, 57], [263, 92],
+  [83, 142], [139, 125], [194, 149], [248, 133],
+  [61, 199], [116, 185], [171, 207], [223, 190], [267, 218],
+];
+const connections = [[0, 1], [0, 5], [1, 2], [1, 6], [2, 3], [2, 6], [2, 7], [3, 4], [3, 8], [4, 8], [5, 6], [5, 9], [5, 10], [6, 7], [6, 10], [7, 8], [7, 11], [7, 12], [8, 12], [8, 13], [9, 10], [10, 11], [11, 12], [12, 13]];
+---
+<div class="spatial-expertise" id="expertise">
+  <div class="spatial-visual" data-spatial-stage aria-hidden="true">
+    <div class="spatial-stage-heading"><span>D / Z</span><span>DATA · AI · SYSTEMS</span></div>
+    <div class="spatial-perspective">
+      <div class="spatial-assembly">
+        <div class="spatial-plane spatial-plane-data">
+          <span class="spatial-plane-label"><span>01</span> DATA</span>
+          <svg class="spatial-plane-art" viewBox="0 0 320 280" fill="none">
+            <path class="spatial-trace" d="M62 89H131V140H191V205H260M62 194H101V140M191 140V82H260M160 140V228" />
+            {[ [62, 89], [62, 194], [260, 82], [260, 205], [160, 228] ].map(([x, y]) => <g><rect x={x - 18} y={y - 13} width="36" height="26" rx="5" /><path d={`M${x - 10} ${y}h20`} /></g>)}
+            <rect class="spatial-vault" x="132" y="112" width="56" height="56" rx="12" />
+            <path d="M145 129h30m-30 11h30m-30 11h30" />
+            <circle cx="145" cy="129" r="1.5" /><circle cx="145" cy="140" r="1.5" /><circle cx="145" cy="151" r="1.5" />
+          </svg>
+          <span class="spatial-plane-coordinate">INGEST / MODEL / FLOW</span>
+        </div>
+        <div class="spatial-plane spatial-plane-architecture">
+          <span class="spatial-plane-label"><span>03</span> SYSTEMS</span>
+          <svg class="spatial-plane-art" viewBox="0 0 320 280" fill="none">
+            <path class="spatial-trace" d="M77 91H160V141H244M77 91V196H160V141M244 91H160M244 91V196H160" />
+            <rect x="59" y="73" width="36" height="36" rx="8" /><rect x="226" y="73" width="36" height="36" rx="8" />
+            <rect x="59" y="178" width="36" height="36" rx="8" /><rect x="226" y="178" width="36" height="36" rx="8" />
+            <rect class="spatial-vault" x="138" y="119" width="44" height="44" rx="10" />
+            <path d="m150 141 7 7 14-15" />
+          </svg>
+          <span class="spatial-plane-coordinate">DESIGN / GOVERN / BUILD</span>
+        </div>
+        <div class="spatial-plane spatial-plane-ai">
+          <span class="spatial-plane-label"><span>02</span> INTELLIGENCE</span>
+          <svg class="spatial-plane-art spatial-neural" viewBox="0 0 320 280" fill="none">
+            <g class="spatial-neural-links">{connections.map(([a, b]) => <path d={`M${nodes[a][0]} ${nodes[a][1]}L${nodes[b][0]} ${nodes[b][1]}`} />)}</g>
+            {nodes.map(([x, y], i) => <circle class:list={['spatial-node', { 'spatial-node-bright': i % 3 === 0 }]} cx={x} cy={y} r={i % 3 === 0 ? 4 : 2.5} />)}
+          </svg>
+          <div class="spatial-core">
+            <div class="spatial-core-front"></div><div class="spatial-core-side"></div>
+            <div class="spatial-core-top"><span>AI</span><svg viewBox="0 0 60 60" fill="none"><path d="M8 20V8h12m20 0h12v12m0 20v12H40m-20 0H8V40" /></svg></div>
+          </div>
+          <span class="spatial-plane-coordinate">MODELS / MLOPS / INFERENCE</span>
+        </div>
+      </div>
+    </div>
+    <div class="spatial-stage-caption"><span>{locale === 'ru' ? 'Три измерения. Одна система.' : 'Three dimensions. One system.'}</span><svg viewBox="0 0 24 24" fill="none" width="23" height="23"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Zm0 9 8-4.5M12 12 4 7.5M12 12v9" /></svg></div>
+  </div>
+  <fieldset class="spatial-directions">
+    <legend>{locale === 'ru' ? 'Направления моей работы' : 'My areas of expertise'}</legend>
+    <p class="spatial-instruction">{locale === 'ru' ? 'Выберите слой, чтобы сменить перспективу.' : 'Choose a layer for a different perspective.'}</p>
+    {c.expertise.map((item, i) => <label class="spatial-choice">
+      <input type="radio" name="expertise-layer" value={layers[i]} checked={i === 1} aria-label={item.title} aria-describedby={`expertise-description-${layers[i]}`} />
+      <span class="spatial-choice-number">{item.number}</span>
+      <span class="spatial-choice-copy"><strong>{item.title}</strong><span id={`expertise-description-${layers[i]}`}>{item.text}</span><span class="spatial-choice-tags">{item.tags}</span></span>
+      <span class="spatial-choice-dot"></span>
+    </label>)}
+  </fieldset>
+</div>
+<script src="../scripts/spatial-scene.ts"></script>

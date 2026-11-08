@@ -1,0 +1,132 @@
+/* A small CSS 3D scene: no WebGL runtime, camera, or continuous render loop. */
+@layer components {
+  .spatial-expertise {
+    --plane-focus-lift: 19px;
+    --scene-glass: rgb(229 238 219 / .64);
+    --scene-glass-edge: rgb(105 131 100 / .36);
+    --scene-ink: #557b51;
+    --scene-core: #3e6646;
+    display: grid; grid-template-columns: 1.12fr 1fr; gap: 48px; align-items: center; margin-top: 65px;
+  }
+  :root[data-theme='dark'] .spatial-expertise {
+    --scene-glass: rgb(11 49 36 / .58);
+    --scene-glass-edge: rgb(178 204 155 / .25);
+    --scene-ink: #9bbf8c;
+    --scene-core: #123b29;
+  }
+  .spatial-visual {
+    position: relative; min-width: 0; height: 530px; border: 1px solid var(--gold-line); border-radius: 32px; isolation: isolate; overflow: hidden;
+    background: radial-gradient(ellipse at 55% 42%, color-mix(in srgb, var(--gold) 10%, transparent), transparent 64%), linear-gradient(135deg, color-mix(in srgb, var(--paper) 50%, transparent), color-mix(in srgb, var(--surface) 70%, transparent));
+    box-shadow: var(--glass-shadow);
+  }
+  .spatial-visual::before { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 2; border-radius: inherit; background: radial-gradient(350px circle at var(--scene-light-x, 65%) var(--scene-light-y, 20%), var(--surface-glint), transparent 72%); opacity: .4; transition: opacity .5s; }
+  .spatial-visual[data-spatial-active]::before { opacity: .8; }
+  .spatial-stage-heading, .spatial-stage-caption { position: absolute; left: 26px; right: 26px; display: flex; align-items: center; justify-content: space-between; gap: 12px; z-index: 3; pointer-events: none; }
+  .spatial-stage-heading { top: 24px; color: var(--accent); font: 9px/1.5 var(--mono); letter-spacing: .12em; }
+  .spatial-stage-heading > span:first-child { color: var(--muted); letter-spacing: .24em; }
+  .spatial-stage-caption { bottom: 24px; font-size: 11px; color: var(--muted); letter-spacing: -.02em; }
+  .spatial-stage-caption svg { stroke: var(--gold); stroke-width: 1; }
+  .spatial-perspective { position: absolute; inset: 38px 0 0; perspective: 1200px; perspective-origin: 50% 43%; }
+  .spatial-assembly {
+    position: absolute; width: 320px; height: 280px; left: 50%; top: 49%; transform-style: preserve-3d;
+    transform: translate(-50%, -50%) rotateX(calc(54deg + var(--scene-x, 0deg))) rotateZ(calc(-32deg + var(--scene-y, 0deg)));
+    transition: transform .7s cubic-bezier(.2,.7,.25,1);
+  }
+  .spatial-plane {
+    --plane-z: 0px;
+    position: absolute; inset: 0; border: 1px solid var(--scene-glass-edge); border-radius: 23px; transform-style: preserve-3d;
+    color: var(--scene-ink); background: linear-gradient(135deg, color-mix(in srgb, var(--scene-glass) 75%, transparent), var(--scene-glass));
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gold-bright) 25%, transparent), 10px 14px 28px rgb(0 24 11 / .12);
+    transform: translateZ(var(--plane-z)); transition: transform .75s cubic-bezier(.2,.7,.25,1), border-color .5s, background .5s, box-shadow .5s;
+  }
+  .spatial-plane::before { content: ''; position: absolute; inset: 5px; border: 1px solid color-mix(in srgb, var(--scene-glass-edge) 40%, transparent); border-radius: 18px; pointer-events: none; }
+  .spatial-plane::after { content: ''; position: absolute; inset: 0; border-radius: inherit; border: 1px solid var(--scene-glass-edge); background: color-mix(in srgb, var(--scene-core) 36%, transparent); transform: translateZ(-6px); pointer-events: none; }
+  .spatial-plane-data { --plane-z: -75px; }
+  .spatial-plane-architecture { --plane-z: 28px; }
+  .spatial-plane-ai { --plane-z: 133px; color: var(--gold); }
+  .spatial-plane-label { position: absolute; top: 18px; left: 22px; right: 22px; display: flex; justify-content: space-between; font: 9px/1 var(--mono); letter-spacing: .1em; color: var(--accent); }
+  .spatial-plane-label > span { opacity: .65; }
+  .spatial-plane-coordinate { position: absolute; bottom: 16px; left: 22px; font: 7px/1 var(--mono); letter-spacing: .1em; color: var(--muted); }
+  .spatial-plane-art { position: absolute; inset: 0; width: 100%; height: 100%; stroke: currentColor; stroke-width: 1; }
+  .spatial-trace { opacity: .6; }
+  .spatial-vault { fill: color-mix(in srgb, var(--scene-core) 18%, transparent); }
+  .spatial-neural-links { stroke-width: .8; opacity: .55; }
+  .spatial-node { fill: var(--gold); stroke: none; }
+  .spatial-node-bright { fill: var(--gold-bright); stroke: var(--gold); stroke-width: 1.2; }
+  .spatial-core { position: absolute; top: 103px; left: 123px; width: 74px; height: 74px; transform-style: preserve-3d; transform: translateZ(3px); }
+  .spatial-core-front, .spatial-core-side, .spatial-core-top { position: absolute; border: 1px solid var(--gold); }
+  .spatial-core-front { top: 100%; left: 0; width: 74px; height: 51px; transform-origin: top; transform: rotateX(90deg); background: linear-gradient(0deg, var(--scene-core), color-mix(in srgb, var(--gold) 38%, var(--scene-core))); }
+  .spatial-core-side { left: 100%; top: 0; width: 51px; height: 74px; transform-origin: left; transform: rotateY(-90deg); background: linear-gradient(90deg, color-mix(in srgb, var(--gold) 24%, var(--scene-core)), var(--scene-core)); }
+  .spatial-core-top { inset: 0; display: grid; place-items: center; transform: translateZ(51px); color: var(--gold-bright); background: linear-gradient(135deg, color-mix(in srgb, var(--gold) 46%, var(--scene-core)), var(--scene-core) 78%); box-shadow: inset 0 1px 0 var(--gold-bright), 0 0 35px color-mix(in srgb, var(--gold) 14%, transparent); }
+  .spatial-core-top > span { font: 500 22px/1 var(--sans); letter-spacing: -.05em; }
+  .spatial-core-top svg { position: absolute; inset: 0; width: 100%; height: 100%; stroke: var(--gold); stroke-width: .8; }
+
+  .spatial-directions { min-width: 0; margin: 0; padding: 0; border: 0; }
+  .spatial-directions legend { padding: 0; margin-bottom: 9px; font-size: 21px; font-weight: 500; letter-spacing: -.04em; }
+  .spatial-instruction { color: var(--muted); font-size: 11px; margin-bottom: 25px; }
+  .spatial-choice { position: relative; display: grid; grid-template-columns: 24px minmax(0, 1fr) 8px; gap: 15px; align-items: start; border: 1px solid transparent; border-top-color: var(--gold-line); border-radius: 0; padding: 22px 15px; cursor: pointer; transition: border-color .3s, background .3s, box-shadow .3s, border-radius .3s; }
+  .spatial-choice input { position: absolute; width: 1px; height: 1px; opacity: 0; margin: 0; }
+  .spatial-choice-number { font: 9px/1.7 var(--mono); color: var(--accent); padding-top: 2px; }
+  .spatial-choice-copy { display: flex; flex-direction: column; gap: 10px; }
+  .spatial-choice-copy > strong { font-size: 16px; font-weight: 600; line-height: 1.4; letter-spacing: -.025em; }
+  .spatial-choice-copy > span { color: var(--muted); font-size: 12px; line-height: 1.75; }
+  .spatial-choice-copy .spatial-choice-tags { color: var(--faint); font: 9px/1.9 var(--mono); }
+  .spatial-choice-dot { width: 6px; height: 6px; margin-top: 7px; border: 1px solid var(--gold); border-radius: 50%; transition: background .3s, box-shadow .3s; }
+  .spatial-choice:hover { background: color-mix(in srgb, var(--paper) 35%, transparent); }
+  .spatial-choice:has(input:checked) { border-color: var(--glass-border); border-radius: 19px; background: var(--glass); box-shadow: var(--glass-shadow); }
+  .spatial-choice:has(input:checked) + .spatial-choice { border-top-color: transparent; }
+  .spatial-choice:has(input:checked) .spatial-choice-dot { background: var(--gold); box-shadow: 0 0 0 4px color-mix(in srgb, var(--gold) 10%, transparent); }
+  .spatial-choice:has(input:focus-visible) { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 19px; }
+  .spatial-expertise:has([value='data']:checked) .spatial-plane-data,
+  .spatial-expertise:has([value='architecture']:checked) .spatial-plane-architecture,
+  .spatial-expertise:has([value='ai']:checked) .spatial-plane-ai {
+    transform: translateZ(calc(var(--plane-z) + var(--plane-focus-lift))); border-color: var(--gold);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--gold) 10%, var(--scene-glass)), var(--scene-glass));
+    box-shadow: inset 0 1px 0 var(--gold-bright), 0 0 22px color-mix(in srgb, var(--gold) 11%, transparent), 10px 17px 35px rgb(0 24 11 / .17);
+  }
+
+  @media (max-width: 1100px) {
+    .spatial-expertise { gap: 28px; grid-template-columns: 1fr 1fr; }
+    .spatial-visual { height: 515px; }
+    .spatial-assembly { width: min(280px, calc(100% - 125px)); height: auto; aspect-ratio: 8 / 7; }
+    .spatial-core { top: calc(50% - 37px); left: calc(50% - 37px); }
+    .spatial-choice { gap: 10px; padding-inline: 12px; }
+    .spatial-choice-copy > strong { font-size: 15px; }
+  }
+  @media (max-width: 760px) {
+    .spatial-expertise { --plane-focus-lift: 13px; grid-template-columns: 1fr; gap: 33px; margin-top: 36px; }
+    .spatial-visual { height: 450px; border-radius: 27px; }
+    .spatial-assembly { width: min(280px, calc(100% - 110px)); height: auto; aspect-ratio: 8 / 7; top: 50%; }
+    .spatial-stage-heading, .spatial-stage-caption { left: 21px; right: 21px; }
+    .spatial-stage-heading { font-size: 8px; }
+    .spatial-stage-caption { font-size: 10px; bottom: 20px; }
+    .spatial-perspective { inset: 25px 0 0; perspective: 1200px; }
+    .spatial-plane-data { --plane-z: -55px; }
+    .spatial-plane-architecture { --plane-z: 20px; }
+    .spatial-plane-ai { --plane-z: 105px; }
+    .spatial-plane-label { font-size: 8px; top: 16px; left: 18px; right: 18px; }
+    .spatial-plane-coordinate { font-size: 6px; left: 18px; }
+    .spatial-directions legend { font-size: 21px; }
+    .spatial-instruction { margin-bottom: 18px; }
+    .spatial-choice { padding: 21px 15px; gap: 12px; }
+    .spatial-choice-copy > strong { font-size: 16px; }
+  }
+  @media (max-width: 390px) {
+    .spatial-plane-label { font-size: 7px; }
+    .spatial-plane-coordinate { font-size: 5.5px; }
+    .spatial-core { width: 64px; height: 64px; top: calc(50% - 32px); left: calc(50% - 32px); }
+    .spatial-core-front { width: 64px; height: 44px; }
+    .spatial-core-side { width: 44px; height: 64px; }
+    .spatial-core-top { transform: translateZ(44px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .spatial-assembly { transform: translate(-50%, -50%) rotateX(54deg) rotateZ(-32deg); }
+    .spatial-visual::before { display: none; }
+    .spatial-plane { transition: none; }
+  }
+  @media print {
+    .spatial-expertise { display: block; }
+    .spatial-visual, .spatial-instruction, .spatial-choice-dot { display: none; }
+    .spatial-choice { border: 0 !important; box-shadow: none !important; background: none !important; break-inside: avoid; }
+  }
+}
