@@ -89,7 +89,7 @@ const pageTitle = title ? `${title} — ${c.name}` : `${c.name} — ${c.role}`;
         try { localStorage.setItem('dz-theme', choice); } catch {}
         applyTheme(choice);
         const picker = button.closest('details');
-        if (picker) { picker.open = false; picker.querySelector('summary')?.focus(); }
+        if (picker) { picker.open = false; picker.querySelector('summary')?.focus({ preventScroll: true }); }
       }));
       media.addEventListener('change', () => {
         if (document.documentElement.dataset.preference === 'system') applyTheme('system');
@@ -100,7 +100,7 @@ const pageTitle = title ? `${title} — ${c.name}` : `${c.name} — ${c.role}`;
       });
       document.addEventListener('keydown', event => {
         const picker = document.querySelector<HTMLDetailsElement>('.theme-picker');
-        if (event.key === 'Escape' && picker?.open) { picker.open = false; picker.querySelector('summary')?.focus(); }
+        if (event.key === 'Escape' && picker?.open) { picker.open = false; picker.querySelector('summary')?.focus({ preventScroll: true }); }
       });
     </script>
     <script src="../scripts/visual-effects.ts"></script>
