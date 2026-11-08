@@ -1,0 +1,53 @@
+---
+import { experience, type Locale } from '../data/profile';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const assets = {
+  adviva: { src: '/brands/adviva.svg', label: false },
+  sber: { src: '/brands/sber.svg', label: true },
+  'gazprom-neft': { src: `/brands/gazprom-neft-${locale}.svg`, label: false },
+  shell: { src: '/brands/shell.svg', label: true },
+};
+const companies = experience.flatMap(job => 'brand' in job ? [{ ...job, logo: assets[job.brand] }] : []);
+---
+<div class="career-brands">
+  <p class="career-brands-label" id="career-brands-label">{locale === 'ru' ? 'Опыт в компаниях' : 'Companies I have worked with'}</p>
+  <ul aria-labelledby="career-brands-label">
+    {companies.map(job => <li>
+      <a class:list={['career-brand', `career-brand-${job.brand}`]} href={`#career-${job.id}`} aria-label={locale === 'en' && 'companyEn' in job ? job.companyEn : job.company}>
+        <span class="career-brand-mark" style={`--brand-source: url('${job.logo.src}');`} aria-hidden="true"></span>
+        {job.logo.label && <span class="career-brand-name" aria-hidden="true">{locale === 'en' && 'companyEn' in job ? job.companyEn : job.company}</span>}
+      </a>
+    </li>)}
+  </ul>
+</div>
+<style>
+  @layer components {
+    .career-brands { margin-top: 36px; padding-top: 25px; border-top: 1px solid var(--gold-line); }
+    .career-brands-label { color: var(--faint); font: 9px/1.7 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+    .career-brands ul { list-style: none; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: center; gap: 24px; padding: 15px 0 0; margin: 0; }
+    .career-brand { display: flex; align-items: center; justify-content: center; gap: 11px; min-height: 74px; color: var(--muted); opacity: .8; transition: color .25s, opacity .25s, transform .25s; }
+    .career-brand:hover { color: var(--gold); opacity: 1; transform: translateY(-2px); }
+    .career-brand-mark { display: block; flex-shrink: 0; width: 37px; height: 37px; background: currentColor; mask: var(--brand-source) center / contain no-repeat; -webkit-mask: var(--brand-source) center / contain no-repeat; }
+    .career-brand-name { font-size: 26px; line-height: 1; font-weight: 600; letter-spacing: -.04em; }
+    .career-brand-adviva .career-brand-mark { width: 168px; height: 28px; }
+    .career-brand-gazprom-neft .career-brand-mark { width: 145px; height: 59px; }
+    .career-brand-shell .career-brand-mark { width: 42px; height: 42px; }
+    @media (max-width: 960px) {
+      .career-brands ul { gap: 15px; }
+      .career-brand-adviva .career-brand-mark { width: 142px; }
+      .career-brand-gazprom-neft .career-brand-mark { width: 122px; height: 53px; }
+      .career-brand-name { font-size: 23px; }
+      .career-brand-mark { width: 32px; height: 32px; }
+      .career-brand { gap: 8px; }
+    }
+    @media (max-width: 640px) {
+      .career-brands { margin-top: 29px; padding-top: 23px; }
+      .career-brands ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 20px; padding-top: 13px; }
+      .career-brand { min-height: 67px; }
+      .career-brand-adviva .career-brand-mark { width: min(142px, 100%); }
+      .career-brands-label { font-size: 8px; }
+    }
+    @media (prefers-reduced-motion: reduce) { .career-brand:hover { transform: none; } }
+  }
+</style>
