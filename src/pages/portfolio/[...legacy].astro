@@ -1,0 +1,12 @@
+---
+import diplomas from '../../data/diplomas.json';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import Icon from '../../components/Icon.astro';
+export function getStaticPaths() {
+  return diplomas.filter(d => d.legacyPath).map(diploma => ({ params: { legacy: diploma.legacyPath!.replace(/^\/portfolio\//, '').replace(/\/$/, '') }, props: { diploma } }));
+}
+const { diploma } = Astro.props;
+---
+<SiteLayout locale="ru" title={diploma.titleRu} section="archive" noindex>
+  <div class="container legacy-document"><a class="back-link" href={`/portfolio/#year-${diploma.year}`}>← Дипломы и достижения / {diploma.year}</a><h1>{diploma.titleRu}</h1><img src={diploma.thumbnail!} alt={diploma.titleRu} width={diploma.width!} height={diploma.height!} /><a class="button primary" href={diploma.src} target="_blank" rel="noopener noreferrer">Открыть оригинал<Icon name="arrow" size={18} /></a></div>
+</SiteLayout>

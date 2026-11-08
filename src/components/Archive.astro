@@ -1,0 +1,74 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import Icon from './Icon.astro';
+import diplomas from '../data/diplomas.json';
+import { content, homePath, documentCount, type Locale } from '../data/profile';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const c = content[locale];
+const years = [...new Set(diplomas.map(d => d.year))].sort((a, b) => b - a);
+---
+<SiteLayout locale={locale} title={c.archivePageTitle} section="archive">
+  <div class="container archive-page">
+    <a class="back-link" href={homePath(locale)}>← {c.back}</a>
+    <div class="page-intro"><p class="eyebrow">{locale === 'ru' ? 'ЛИЧНЫЙ АРХИВ / 2002 — 2019' : 'PERSONAL ARCHIVE / 2002 — 2019'}</p><h1>{c.archivePageTitle}<span class="accent">.</span></h1><p>{c.archivePageIntro}</p><span class="archive-total">{documentCount(diplomas.length, locale)} · {years.length} {locale === 'ru' ? 'лет в архиве' : 'years in the archive'}</span></div>
+    <nav class="year-filter" aria-label={locale === 'ru' ? 'Выбор года' : 'Choose a year'}><a href="#all" data-year-filter="all" aria-current="true">{c.allYears}</a>{years.map(year => <a href={`#year-${year}`} data-year-filter={year}>{year}</a>)}</nav>
+    <div class="archive-years">{years.map(year => <section class="archive-year" id={`year-${year}`} data-archive-year={year} aria-labelledby={`heading-${year}`}><div class="year-heading"><h2 id={`heading-${year}`}>{year}</h2><span>{documentCount(diplomas.filter(d => d.year === year).length, locale)}</span></div><div class="diploma-grid">{diplomas.filter(d => d.year === year).map(diploma => <article class="diploma-card" id={`diploma-${diploma.id}`}>
+      {diploma.format === 'image' ? <button class="diploma-preview" type="button" data-diploma-open data-original={diploma.src} data-title={`${locale === 'ru' ? diploma.titleRu : diploma.titleEn} / ${diploma.ordinal}`} aria-label={`${c.image}, ${year}, ${diploma.ordinal}`} aria-haspopup="dialog"><img src={diploma.thumbnail!} width={diploma.width!} height={diploma.height!} alt={`${c.image}, ${year}, ${diploma.ordinal}`} loading="lazy" decoding="async" /><span class="preview-expand" aria-hidden="true"><Icon name="arrow" size={19} /></span></button> : <a class="diploma-preview pdf-preview" href={diploma.src} target="_blank" rel="noopener noreferrer" aria-label={`${c.document}, PDF, ${year}`}><Icon name="file" size={44} /><span>PDF</span><span class="pdf-filename">{diploma.filename}</span></a>}
+      <div class="diploma-caption"><span>{locale === 'ru' ? diploma.titleRu : diploma.titleEn}<small> / {String(diploma.ordinal).padStart(2, '0')}</small></span><a href={diploma.src} target="_blank" rel="noopener noreferrer" aria-label={`${c.original}, ${year}, ${diploma.ordinal}`} title={c.original}><Icon name="arrow" size={18} /></a></div>
+    </article>)}</div></section>)}</div>
+  </div>
+  <dialog class="diploma-dialog" aria-labelledby="viewer-title"><div class="viewer-header"><p id="viewer-title"></p><div><a id="viewer-original" href="#" target="_blank" rel="noopener noreferrer">{c.original}<Icon name="arrow" size={17} /></a><button type="button" data-viewer-close aria-label={c.close}><Icon name="close" size={23} /></button></div></div><div class="viewer-image-wrap"><img id="viewer-image" alt="" /></div><div class="viewer-footer"><button type="button" data-viewer-prev aria-label={c.previous}><Icon name="chevron-left" /></button><span id="viewer-position" aria-live="polite"></span><button type="button" data-viewer-next aria-label={c.next}><Icon name="chevron-right" /></button></div></dialog>
+  <script>
+    const filters = [...document.querySelectorAll<HTMLAnchorElement>('[data-year-filter]')];
+    const sections = [...document.querySelectorAll<HTMLElement>('[data-archive-year]')];
+    function filterYear(year: string) {
+      sections.forEach(section => { section.hidden = year !== 'all' && section.dataset.archiveYear !== year; });
+      filters.forEach(filter => {
+        if (filter.dataset.yearFilter === year) filter.setAttribute('aria-current', 'true');
+        else filter.removeAttribute('aria-current');
+      });
+    }
+    filters.forEach(filter => filter.addEventListener('click', event => {
+      event.preventDefault();
+      const year = filter.dataset.yearFilter || 'all';
+      filterYear(year);
+      history.replaceState(null, '', year === 'all' ? location.pathname : `#year-${year}`);
+    }));
+    const requestedYear = location.hash.match(/^#year-(\d{4})$/)?.[1];
+    if (requestedYear && sections.some(section => section.dataset.archiveYear === requestedYear)) filterYear(requestedYear);
+
+    const dialog = document.querySelector<HTMLDialogElement>('.diploma-dialog')!;
+    const viewerImage = document.querySelector<HTMLImageElement>('#viewer-image')!;
+    const viewerOriginal = document.querySelector<HTMLAnchorElement>('#viewer-original')!;
+    const title = document.getElementById('viewer-title')!;
+    const position = document.getElementById('viewer-position')!;
+    const openers = [...document.querySelectorAll<HTMLButtonElement>('[data-diploma-open]')];
+    let visibleOpeners = openers;
+    let currentIndex = 0;
+    function showImage(index: number) {
+      currentIndex = (index + visibleOpeners.length) % visibleOpeners.length;
+      const opener = visibleOpeners[currentIndex];
+      viewerImage.src = opener.dataset.original!;
+      viewerImage.alt = opener.dataset.title!;
+      viewerOriginal.href = opener.dataset.original!;
+      title.textContent = opener.dataset.title!;
+      position.textContent = `${currentIndex + 1} / ${visibleOpeners.length}`;
+    }
+    openers.forEach(opener => opener.addEventListener('click', () => {
+      visibleOpeners = openers.filter(button => !button.closest<HTMLElement>('[data-archive-year]')?.hidden);
+      showImage(visibleOpeners.indexOf(opener));
+      dialog.showModal();
+      document.documentElement.classList.add('viewer-open');
+    }));
+    document.querySelector('[data-viewer-close]')?.addEventListener('click', () => dialog.close());
+    document.querySelector('[data-viewer-prev]')?.addEventListener('click', () => showImage(currentIndex - 1));
+    document.querySelector('[data-viewer-next]')?.addEventListener('click', () => showImage(currentIndex + 1));
+    dialog.addEventListener('close', () => document.documentElement.classList.remove('viewer-open'));
+    dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+    dialog.addEventListener('keydown', event => {
+      if (event.key === 'ArrowLeft') { event.preventDefault(); showImage(currentIndex - 1); }
+      if (event.key === 'ArrowRight') { event.preventDefault(); showImage(currentIndex + 1); }
+    });
+  </script>
+</SiteLayout>

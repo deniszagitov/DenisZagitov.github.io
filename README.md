@@ -1,75 +1,52 @@
-# Academic Pages
-**Academic Pages is a Github Pages template for academic websites.**
+# Denis Zagitov — personal website
 
-# Getting Started
+A personal presentation site built with Astro and TypeScript. Russian is the primary language; English lives under `/en/`. The design has light, dark, and system appearance settings.
 
-1. Register a GitHub account if you don't have one and confirm your e-mail (required!)
-1. Click the "Use this template" button in the top right.
-1. On the "New repository" page, enter your repository name as "[your GitHub username].github.io", which will also be your website's URL.
-1. Set site-wide configuration and add your content.
-1. Upload any files (like PDFs, .zip files, etc.) to the `files/` directory. They will appear at https://[your GitHub username].github.io/files/example.pdf.
-1. Check status by going to the repository settings, in the "GitHub pages" section
-1. (Optional) Use the Jupyter notebooks or python scripts in the `markdown_generator` folder to generate markdown files for publications and talks from a TSV file.
+## Local development
 
-See more info at https://academicpages.github.io/
-
-## Running locally
-
-When you are initially working your website, it is very useful to be able to preview the changes locally before pushing them to GitHub. To work locally you will need to:
-
-1. Clone the repository and made updates as detailed above.
-1. Make sure you have ruby-dev, bundler, and nodejs installed
-    
-    On most Linux distribution and [Windows Subsystem Linux](https://learn.microsoft.com/en-us/windows/wsl/about) the command is:
-    ```bash
-    sudo apt install ruby-dev ruby-bundler nodejs
-    ```
-    On MacOS the commands are:
-    ```bash
-    brew install ruby
-    brew install node
-    gem install bundler
-    ```
-1. Run `bundle install` to install ruby dependencies. If you get errors, delete Gemfile.lock and try again.
-1. Run `jekyll serve -l -H localhost` to generate the HTML and serve it from `localhost:4000` the local server will automatically rebuild and refresh the pages on change.
-
-If you are running on Linux it may be necessary to install some additional dependencies prior to being able to run locally: `sudo apt install build-essential gcc make`
-
-## Using Docker
-
-Working from a different OS, or just want to avoid installing dependencies? You can use the provided `Dockerfile` to build a container that will run the site for you if you have [Docker](https://www.docker.com/) installed.
-
-Start by build the container:
-
-```bash
-docker build -t jekyll-site .
+```sh
+npm install
+npm run dev
 ```
 
-Next, run the container:
-```bash
-docker run -p 4000:4000 --rm -v $(pwd):/usr/src/app jekyll-site
+Open the Local URL printed by Astro (normally http://127.0.0.1:4321/). The project pins a development Node executable in devDependencies so npm scripts use a compatible runtime without changing the globally installed Node. The system Node used for installation must be at least 22.12.0; the application tooling uses Node 22.23.4.
+
+```sh
+npm run check
+npm run build
+npm run verify
+npm run preview
 ```
 
-# Maintenance
+The build is static and outputs to `dist/`, ready for GitHub Pages. This branch is a local preview: no deployment workflow has been enabled.
 
-Bug reports and feature requests to the template should be [submitted via GitHub](https://github.com/academicpages/academicpages.github.io/issues/new/choose). For questions concerning how to style the template, please feel free to start a [new discussion on GitHub](https://github.com/academicpages/academicpages.github.io/discussions).
+## Pages and homepage order
 
-This repository was forked (then detached) by [Stuart Geiger](https://github.com/staeiou) from the [Minimal Mistakes Jekyll Theme](https://mmistakes.github.io/minimal-mistakes/), which is © 2016 Michael Rose and released under the MIT License (see LICENSE.md). It is currently being maintained by [Robert Zupko](https://github.com/rjzupkoii) and additional maintainers would be welcomed.
+- `/`, `/en/`: introduction → profile and expertise → work experience → approach → achievements archive → contact.
+- `/cv/`, `/en/cv/`: extended résumé with a print stylesheet (browser Print / Save as PDF).
+- `/portfolio/`, `/en/portfolio/`: archive grouped by year, with year selection, image viewing, and links to originals.
+- Existing diploma detail URLs are generated from the original portfolio metadata.
 
-## Bugfixes and enhancements
+## Source ownership
 
-If you have bugfixes and enhancements that you would like to submit as a pull request, you will need to [fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo) this repository as opposed to using it as a template. This will also allow you to [synchronize your copy](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork) of template to your fork as well.
+- `src/data/profile.ts`: Russian/English text, career facts, and navigation labels. Career descriptions derive from the public LinkedIn profile and the previous site. Scale figures retain team attribution.
+- `src/components/`: shared homepage, résumé, and archive components.
+- `src/layouts/SiteLayout.astro`: shared navigation, metadata, appearance, and language links.
+- `src/styles/global.css`: typography, responsive layout, both colour themes, and printing.
+- `src/styles/heritage.css`: emerald/gold appearance, polished metal, glass surfaces, and responsive lighting effects.
+- `src/scripts/visual-effects.ts`: scroll reveals, reading progress, and pointer-driven lighting; respects reduced-motion preferences and skips pointer effects on touch devices.
+- `assets/images/portfolio/<year>/`: preserved original archive files; keep these paths and bytes.
+- `_portfolio/`: original metadata retained as the mapping for existing public diploma URLs.
+- `images/profile.png`: preserved source portrait.
 
-Unfortunately, one logistical issue with a template theme like Academic Pages that makes it a little tricky to get bug fixes and updates to the core theme. If you use this template and customize it, you will probably get merge conflicts if you attempt to synchronize. If you want to save your various .yml configuration files and markdown files, you can delete the repository and fork it again. Or you can manually patch.
+## Archive preparation
 
----
-<div align="center">
-    
-![pages-build-deployment](https://github.com/academicpages/academicpages.github.io/actions/workflows/pages/pages-build-deployment/badge.svg)
-[![GitHub contributors](https://img.shields.io/github/contributors/academicpages/academicpages.github.io.svg)](https://github.com/academicpages/academicpages.github.io/graphs/contributors)
-[![GitHub release](https://img.shields.io/github/v/release/academicpages/academicpages.github.io)](https://github.com/academicpages/academicpages.github.io/releases/latest)
-[![GitHub license](https://img.shields.io/github/license/academicpages/academicpages.github.io?color=blue)](https://github.com/academicpages/academicpages.github.io/blob/master/LICENSE)
+`npm run prepare:assets` runs automatically before development and production builds. It copies the original diploma assets to their previous public paths and generates small WebP previews. All originals, including PDF files, remain unmodified. Generated copies in `public/assets/images/portfolio/` and `public/media/` are ignored by Git and rebuilt from source.
 
-[![GitHub stars](https://img.shields.io/github/stars/academicpages/academicpages.github.io)](https://github.com/academicpages/academicpages.github.io)
-[![GitHub forks](https://img.shields.io/github/forks/academicpages/academicpages.github.io)](https://github.com/academicpages/academicpages.github.io/fork)
-</div>
+The generated `src/data/diplomas.json` contains the complete catalogue: folder year, original URL, preview, format, and previous detail route. Generic titles are intentional until the documents are individually described; they make no assumptions about an issuer or qualification.
+
+`npm run verify` checks archive coverage, original-file SHA256 equality, old diploma routes, internal links and anchors, language metadata, and the presence of both appearance controls in the static output.
+
+## Migration boundary
+
+The previous Jekyll source is retained while this Astro version is reviewed. It is not read by the new application, apart from the original archive mapping above. Historical blog, talk, and publication pages have not been migrated in this first version. Existing unrelated working-tree changes are preserved.

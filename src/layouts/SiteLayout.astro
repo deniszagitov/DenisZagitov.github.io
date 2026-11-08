@@ -1,0 +1,108 @@
+---
+import '@fontsource-variable/manrope';
+import '../styles/global.css';
+import '../styles/heritage.css';
+import { content, homePath, archivePath, type Locale } from '../data/profile';
+import Icon from '../components/Icon.astro';
+interface Props { locale: Locale; title?: string; description?: string; section?: 'home' | 'archive' | 'cv'; noindex?: boolean; }
+const { locale, title, description, section = 'home', noindex = false } = Astro.props;
+const c = content[locale];
+const otherLocale = locale === 'ru' ? 'en' : 'ru';
+const translatedPath = (lang: Locale) => section === 'archive' ? archivePath(lang) : section === 'cv' ? (lang === 'ru' ? '/cv/' : '/en/cv/') : homePath(lang);
+const absolute = (path: string) => new URL(path, Astro.site).href;
+const pageTitle = title ? `${title} — ${c.name}` : `${c.name} — ${c.role}`;
+---
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description ?? c.description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={absolute(Astro.url.pathname)} />
+    <link rel="alternate" hreflang="ru" href={absolute(translatedPath('ru'))} />
+    <link rel="alternate" hreflang="en" href={absolute(translatedPath('en'))} />
+    <link rel="alternate" hreflang="x-default" href={absolute(translatedPath('ru'))} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f7f6f0" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description ?? c.description} />
+    <meta property="og:url" content={absolute(Astro.url.pathname)} />
+    <meta property="og:image" content={absolute('/media/social.png')} />
+    <meta property="og:locale" content={locale === 'ru' ? 'ru_RU' : 'en_US'} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline>
+      (() => {
+        let choice = 'system';
+        try { choice = localStorage.getItem('dz-theme') || 'system'; } catch {}
+        const dark = choice === 'dark' || (choice === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        document.documentElement.dataset.preference = choice;
+      })();
+    </script>
+    <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@type': 'ProfilePage', mainEntity: { '@type': 'Person', name: 'Denis Zagitov', alternateName: 'Денис Загитов', url: Astro.site?.href, image: absolute('/media/denis-zagitov.webp'), jobTitle: 'Data & AI Architect', sameAs: ['https://www.linkedin.com/in/deniszagitov/', 'https://github.com/DenisZagitov'] } })} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{c.skip}</a>
+    <header class="site-header" id="top">
+      <div class="container header-inner">
+        <a class="brand" href={homePath(locale)} aria-label={c.name}>dz<span>.</span></a>
+        <nav class="main-nav" aria-label={locale === 'ru' ? 'Основная навигация' : 'Main navigation'}>
+          <a href={`${homePath(locale)}#about`}>{c.nav.about}</a>
+          <a href={`${homePath(locale)}#experience`}>{c.nav.experience}</a>
+          <a href={archivePath(locale)} aria-current={section === 'archive' ? 'page' : undefined}>{c.nav.archive}</a>
+          <a href={`${homePath(locale)}#contact`}>{c.nav.contact}</a>
+        </nav>
+        <div class="header-controls">
+          <a class="language-switch" href={translatedPath(otherLocale)} lang={otherLocale} hreflang={otherLocale} aria-label={locale === 'ru' ? 'Switch to English' : 'Переключить на русский'}>{locale === 'ru' ? 'EN' : 'RU'} <span aria-hidden="true">↗</span></a>
+          <details class="theme-picker">
+            <summary aria-label={c.theme} title={c.theme}><span class="theme-light-icon"><Icon name="sun" /></span><span class="theme-dark-icon"><Icon name="moon" /></span></summary>
+            <div class="theme-menu" role="group" aria-label={c.theme}>
+              <button type="button" data-theme-choice="system"><Icon name="system" size={16} />{c.system}<span class="theme-check" aria-hidden="true">✓</span></button>
+              <button type="button" data-theme-choice="light"><Icon name="sun" size={16} />{c.light}<span class="theme-check" aria-hidden="true">✓</span></button>
+              <button type="button" data-theme-choice="dark"><Icon name="moon" size={16} />{c.dark}<span class="theme-check" aria-hidden="true">✓</span></button>
+            </div>
+          </details>
+        </div>
+      </div>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer">
+      <div class="container footer-inner"><a href={homePath(locale)}>{c.name}<span>© {new Date().getFullYear()}</span></a><p>{c.footer}</p><a href="#top">{c.top}<Icon name="arrow" size={16} /></a></div>
+    </footer>
+    <script>
+      const media = window.matchMedia('(prefers-color-scheme: dark)');
+      const buttons = document.querySelectorAll<HTMLButtonElement>('[data-theme-choice]');
+      function applyTheme(choice: string) {
+        const dark = choice === 'dark' || (choice === 'system' && media.matches);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        document.documentElement.dataset.preference = choice;
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#041f18' : '#f7f6f0');
+        buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.themeChoice === choice)));
+      }
+      applyTheme(document.documentElement.dataset.preference || 'system');
+      buttons.forEach(button => button.addEventListener('click', () => {
+        const choice = button.dataset.themeChoice || 'system';
+        try { localStorage.setItem('dz-theme', choice); } catch {}
+        applyTheme(choice);
+        const picker = button.closest('details');
+        if (picker) { picker.open = false; picker.querySelector('summary')?.focus(); }
+      }));
+      media.addEventListener('change', () => {
+        if (document.documentElement.dataset.preference === 'system') applyTheme('system');
+      });
+      document.addEventListener('click', event => {
+        const picker = document.querySelector<HTMLDetailsElement>('.theme-picker');
+        if (picker?.open && event.target instanceof Node && !picker.contains(event.target)) picker.open = false;
+      });
+      document.addEventListener('keydown', event => {
+        const picker = document.querySelector<HTMLDetailsElement>('.theme-picker');
+        if (event.key === 'Escape' && picker?.open) { picker.open = false; picker.querySelector('summary')?.focus(); }
+      });
+    </script>
+    <script src="../scripts/visual-effects.ts"></script>
+  </body>
+</html>

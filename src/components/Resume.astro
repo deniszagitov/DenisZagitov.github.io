@@ -1,0 +1,16 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import Icon from './Icon.astro';
+import { content, experience, homePath, archivePath, type Locale } from '../data/profile';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const c = content[locale];
+---
+<SiteLayout locale={locale} title={c.cvHeading} section="cv">
+  <div class="container resume-page"><a class="back-link" href={homePath(locale)}>← {c.back}</a><div class="page-intro"><p class="eyebrow">{c.name.toUpperCase()} / {c.eyebrow}</p><h1>{c.cvHeading}<span class="accent">.</span></h1><p>{c.cvIntro}</p><div class="resume-actions"><button class="button primary" data-print type="button">{c.print}<Icon name="arrow" size={17} /></button><a class="text-link" href="mailto:deniszagitov@gmail.com">{c.emailLabel}<Icon name="arrow" size={17} /></a></div></div>
+  <div class="resume-contact"><strong>{c.name}</strong><span>{c.location}</span><a href="mailto:deniszagitov@gmail.com">deniszagitov@gmail.com</a><a href="https://www.linkedin.com/in/deniszagitov/">LinkedIn ↗</a></div>
+  <div class="resume-experience">{experience.map(job => <article><div class="resume-period">{job.period}{job.current ? ` ${c.present}` : ''}</div><div><p class="company-name">{locale === 'en' && 'companyEn' in job ? job.companyEn : job.company}</p><h2>{job[locale].role}</h2><p>{job[locale].summary}</p><p>{job[locale].detail}</p><div class="tags">{job.tags.map(tag => <span>{tag}</span>)}</div></div></article>)}</div>
+  <section class="resume-education"><h2>{c.education}</h2><div><h3>{c.educationTitle}</h3><p>{c.educationDegree}</p><a class="text-link" href={archivePath(locale)}>{c.archivePageTitle}<Icon name="arrow" size={17} /></a></div></section><section class="resume-education"><h2>{c.languages}</h2><p>{c.languageText}</p></section>
+  </div>
+  <script>document.querySelector('[data-print]')?.addEventListener('click', () => window.print());</script>
+</SiteLayout>

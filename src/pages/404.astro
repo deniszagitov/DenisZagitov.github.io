@@ -1,0 +1,5 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { content } from '../data/profile';
+---
+<SiteLayout locale="ru" title="404" noindex><section class="container not-found"><p class="eyebrow">404 / ДЕНИС ЗАГИТОВ</p><h1>{content.ru.notFound}</h1><p>{content.ru.notFoundText}</p><a class="button primary" href="/">На главную ↗</a><a class="text-link" href="/en/">English ↗</a></section></SiteLayout>

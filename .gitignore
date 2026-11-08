@@ -10,7 +10,6 @@ Gemfile.lock
 
 # Ingore files created by npm
 node_modules
-package-lock.json
 .DS_Store
 
 # Local Ruby dependencies and Jekyll state
@@ -18,3 +17,9 @@ vendor/
 .bundle/
 .jekyll-cache/
 .jekyll-metadata
+
+# Astro build and generated copies of preserved original assets
+dist/
+.astro/
+public/assets/images/portfolio/
+public/media/
