@@ -90,4 +90,5 @@ assert(facts.includes('AWS experience is from a personal home project.'), 'Missi
 assert((await readFile(join(dist, 'llms.txt'), 'utf8')).includes('https://deniszagitov.github.io/profile.md'), 'Missing fact sheet discovery link');
 assert((await readFile(join(dist, 'robots.txt'), 'utf8')).includes('Allow: /'), 'Public profile must be crawlable');
 await access(join(dist, 'media/social.png'));
+assert.equal(await readFile(join(dist, 'indexnow-key.txt'), 'utf8'), await readFile(join(root, 'public/indexnow-key.txt'), 'utf8'), 'Published IndexNow proof must match its source');
 console.log(`Verified ${pages.length} HTML pages and ${internalLinks} internal links; RU/EN SEO metadata and structured identity, crawlable sitemap and fact sheet, themes, ${catalogue.length} byte-identical diploma originals, original presentations, and legacy content routes.`);

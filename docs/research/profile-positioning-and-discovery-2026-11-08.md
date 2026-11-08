@@ -26,6 +26,7 @@ Names in both alphabets and professional identity belong in the title, visible H
 - Static HTML contains the professional content and technology names. Native navigation and links work independently of the architecture animation.
 - Crawlable sitemap and robots.txt; original diploma and presentation bytes and genuine old material URLs retained.
 - Optional `/profile.md` and `/llms.txt` generated from the same data; no agent instructions or ranking claims. Google explicitly says it does not use llms.txt for ranking.
+- A public IndexNow ownership proof and manual post-publication notification script submit the sitemap URLs to participating engines. The script checks the live proof before sending; HTTP 200/202 are receipt states, not evidence of indexation.
 
 These changes prepare discovery; they do not establish actual rankings or indexation. Verification and sitemap submission in Google Search Console / Bing Webmaster Tools remain account-side actions. Use real impressions and queries for subsequent editorial decisions, rather than producing duplicate landing pages.
 
@@ -35,3 +36,4 @@ These changes prepare discovery; they do not establish actual rankings or indexa
 - [Google: ProfilePage structured data](https://developers.google.com/search/docs/appearance/structured-data/profile-page): a profile represents one person; markup must match public evidence.
 - [Google: localized versions](https://developers.google.com/search/docs/specialty/international/localized-versions): self-referential, reciprocal, fully qualified language alternatives.
 - [GitHub: custom Pages workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages): artifact build, deployment permissions and environment.
+- [IndexNow protocol](https://www.indexnow.org/documentation): public ownership proof, URL batch notification, and response meanings.
