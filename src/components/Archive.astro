@@ -8,7 +8,7 @@ const { locale } = Astro.props;
 const c = content[locale];
 const years = [...new Set(diplomas.map(d => d.year))].sort((a, b) => b - a);
 ---
-<SiteLayout locale={locale} title={c.archivePageTitle} section="archive">
+<SiteLayout locale={locale} title={c.archivePageTitle} description={`${c.name}. ${c.archivePageIntro}`} section="archive">
   <div class="container archive-page">
     <a class="back-link" href={homePath(locale)}>← {c.back}</a>
     <div class="page-intro"><p class="eyebrow">{locale === 'ru' ? 'ЛИЧНЫЙ АРХИВ / 2002 — 2019' : 'PERSONAL ARCHIVE / 2002 — 2019'}</p><h1>{c.archivePageTitle}<span class="accent">.</span></h1><p>{c.archivePageIntro}</p><span class="archive-total">{documentCount(diplomas.length, locale)} · {years.length} {locale === 'ru' ? 'лет в архиве' : 'years in the archive'}</span></div>

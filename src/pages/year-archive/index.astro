@@ -1,0 +1,5 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { posts, materialPath } from '../../data/materials';
+---
+<SiteLayout locale="ru" title="Статьи" description="Статьи Дениса Загитова из личного архива."><div class="container material-page"><a class="back-link" href="/talks/">← Все материалы</a><div class="page-intro"><h1>Статьи.</h1></div><div class="material-list">{posts.map(material => <article><h2><a href={materialPath(material)}>{material.frontmatter.title} ↗</a></h2></article>)}</div></div></SiteLayout>

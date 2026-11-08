@@ -4,13 +4,17 @@ import '../styles/global.css';
 import '../styles/heritage.css';
 import { content, homePath, archivePath, type Locale } from '../data/profile';
 import Icon from '../components/Icon.astro';
+import { pageSchema, pagePairs } from '../data/seo';
 interface Props { locale: Locale; title?: string; description?: string; section?: 'home' | 'archive' | 'cv'; noindex?: boolean; }
 const { locale, title, description, section = 'home', noindex = false } = Astro.props;
 const c = content[locale];
 const otherLocale = locale === 'ru' ? 'en' : 'ru';
 const translatedPath = (lang: Locale) => section === 'archive' ? archivePath(lang) : section === 'cv' ? (lang === 'ru' ? '/cv/' : '/en/cv/') : homePath(lang);
 const absolute = (path: string) => new URL(path, Astro.site).href;
-const pageTitle = title ? `${title} — ${c.name}` : `${c.name} — ${c.role}`;
+const pageTitle = title ? `${title} — ${c.name}` : `${c.name} — ${c.role} | DWH, MLOps`;
+const pageDescription = description ?? c.description;
+const isPairedPage = pagePairs.some(pair => pair.some(path => path === Astro.url.pathname));
+const schema = pageSchema({ locale, site: Astro.site!, path: Astro.url.pathname, title: pageTitle, description: pageDescription, section });
 ---
 <!doctype html>
 <html lang={locale}>
@@ -18,22 +22,35 @@ const pageTitle = title ? `${title} — ${c.name}` : `${c.name} — ${c.role}`;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
-    <meta name="description" content={description ?? c.description} />
-    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="description" content={pageDescription} />
+    <meta name="author" content={c.name} />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
     <link rel="canonical" href={absolute(Astro.url.pathname)} />
-    <link rel="alternate" hreflang="ru" href={absolute(translatedPath('ru'))} />
-    <link rel="alternate" hreflang="en" href={absolute(translatedPath('en'))} />
-    <link rel="alternate" hreflang="x-default" href={absolute(translatedPath('ru'))} />
+    {isPairedPage && <>
+      <link rel="alternate" hreflang="ru" href={absolute(translatedPath('ru'))} />
+      <link rel="alternate" hreflang="en" href={absolute(translatedPath('en'))} />
+      <link rel="alternate" hreflang="x-default" href={absolute(translatedPath('ru'))} />
+    </>}
+    <link rel="alternate" type="text/markdown" href={absolute('/profile.md')} title="Denis Zagitov — profile as Markdown" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="color-scheme" content="light dark" />
     <meta name="theme-color" content="#f7f6f0" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={description ?? c.description} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:site_name" content="Denis Zagitov / Денис Загитов" />
     <meta property="og:url" content={absolute(Astro.url.pathname)} />
     <meta property="og:image" content={absolute('/media/social.png')} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${c.name} — ${c.role}`} />
     <meta property="og:locale" content={locale === 'ru' ? 'ru_RU' : 'en_US'} />
+    {isPairedPage && <meta property="og:locale:alternate" content={locale === 'ru' ? 'en_US' : 'ru_RU'} />}
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={absolute('/media/social.png')} />
+    <meta name="twitter:image:alt" content={`${c.name} — ${c.role}`} />
     <script is:inline>
       (() => {
         let choice = 'system';
@@ -43,7 +60,7 @@ const pageTitle = title ? `${title} — ${c.name}` : `${c.name} — ${c.role}`;
         document.documentElement.dataset.preference = choice;
       })();
     </script>
-    <script type="application/ld+json" set:html={JSON.stringify({ '@context': 'https://schema.org', '@type': 'ProfilePage', mainEntity: { '@type': 'Person', name: 'Denis Zagitov', alternateName: 'Денис Загитов', url: Astro.site?.href, image: absolute('/media/denis-zagitov.webp'), jobTitle: 'Data & AI Architect', sameAs: ['https://www.linkedin.com/in/deniszagitov/', 'https://github.com/DenisZagitov'] } })} />
+    <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\\u003c')} />
   </head>
   <body>
     <a class="skip-link" href="#main">{c.skip}</a>
@@ -71,7 +88,7 @@ const pageTitle = title ? `${title} — ${c.name}` : `${c.name} — ${c.role}`;
     </header>
     <main id="main"><slot /></main>
     <footer class="site-footer">
-      <div class="container footer-inner"><a href={homePath(locale)}>{c.name}<span>© {new Date().getFullYear()}</span></a><p>{c.footer}</p><a href="#top">{c.top}<Icon name="arrow" size={16} /></a></div>
+      <div class="container footer-inner"><a href={homePath(locale)}>{c.name}<span>© {new Date().getFullYear()}</span></a><a href="/talks/">{locale === 'ru' ? 'Выступления и материалы' : 'Talks & writing (RU)'}</a><a href="#top">{c.top}<Icon name="arrow" size={16} /></a></div>
     </footer>
     <script>
       const media = window.matchMedia('(prefers-color-scheme: dark)');

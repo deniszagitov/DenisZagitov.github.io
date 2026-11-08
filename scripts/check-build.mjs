@@ -45,14 +45,49 @@ for (const path of pages) {
     internalLinks++;
   }
 }
-for (const [path, locale] of [['/', 'ru'], ['/en/', 'en'], ['/portfolio/', 'ru'], ['/en/portfolio/', 'en'], ['/cv/', 'ru'], ['/en/cv/', 'en']]) {
+const descriptions = new Set();
+for (const [path, locale, translation] of [['/', 'ru', '/en/'], ['/en/', 'en', '/'], ['/portfolio/', 'ru', '/en/portfolio/'], ['/en/portfolio/', 'en', '/portfolio/'], ['/cv/', 'ru', '/en/cv/'], ['/en/cv/', 'en', '/cv/']]) {
   const html = await readFile(join(dist, path, 'index.html'), 'utf8');
   assert(html.includes(`lang="${locale}"`), `Wrong language at ${path}`);
   assert(html.includes('data-theme-choice="dark"') && html.includes('data-theme-choice="light"'), `Missing themes at ${path}`);
   assert(html.includes('hreflang="ru"') && html.includes('hreflang="en"'), `Missing language alternatives at ${path}`);
+  assert.equal([...html.matchAll(/<h1\b/g)].length, 1, `Expected one page heading at ${path}`);
+  assert(html.includes(`rel="canonical" href="https://deniszagitov.github.io${path}"`), `Wrong canonical at ${path}`);
+  const otherLocale = locale === 'ru' ? 'en' : 'ru';
+  assert(html.includes(`hreflang="${otherLocale}" href="https://deniszagitov.github.io${translation}"`), `Wrong translation at ${path}`);
+  const description = html.match(/<meta name="description" content="([^"]+)"/)?.[1];
+  assert(description && !descriptions.has(description), `Missing or duplicate description at ${path}`);
+  descriptions.add(description);
+  const schema = JSON.parse(html.match(/<script type="application\/ld\+json">(.*?)<\/script>/s)?.[1] ?? 'null');
+  const person = schema?.['@graph']?.find(node => node['@type'] === 'Person');
+  const page = schema?.['@graph']?.find(node => node['@id'] === `https://deniszagitov.github.io${path}#webpage`);
+  assert.equal(person?.['@id'], 'https://deniszagitov.github.io/#person', `Inconsistent profile identity at ${path}`);
+  assert.equal(page?.['@type'], path.includes('/portfolio/') ? 'CollectionPage' : 'ProfilePage', `Wrong page schema at ${path}`);
+  assert(!html.includes('noindex'), `Profile accidentally excluded from search at ${path}`);
+  assert(!/\bJava\b/.test(html), `Java presented as a personal skill at ${path}`);
 }
 for (const path of ['/portfolio/', '/en/portfolio/']) {
   const html = await readFile(join(dist, path, 'index.html'), 'utf8');
   for (const record of catalogue) assert(html.includes(`id="diploma-${record.id}"`), `Missing diploma ${record.id} at ${path}`);
 }
-console.log(`Verified ${pages.length} HTML pages and ${internalLinks} internal links; both languages, theme controls, ${catalogue.length} byte-identical originals, and every legacy diploma route.`);
+const sitemap = await readFile(join(dist, 'sitemap.xml'), 'utf8');
+for (const [, loc] of sitemap.matchAll(/<loc>(.*?)<\/loc>/g)) {
+  const url = new URL(loc);
+  assert.equal(url.origin, 'https://deniszagitov.github.io', 'Sitemap must use the public domain');
+  const html = await readFile(join(dist, decodeURIComponent(url.pathname), 'index.html'), 'utf8');
+  assert(!html.includes('noindex'), `Noindex page in sitemap: ${loc}`);
+}
+for (const name of ['BIT-2017.pptx', 'Ситуационные центры.pptx']) {
+  assert.equal(hash(await readFile(join(root, 'files', name))), hash(await readFile(join(dist, 'files', name))), `Original presentation changed: ${name}`);
+}
+for (const date of ['2017-05-25', '2022-01-20']) {
+  const redirect = await readFile(join(dist, 'talks', date + '.html'), 'utf8');
+  assert(redirect.includes(`0;url=/talks/${date}/`), `Missing legacy talk redirect: ${date}`);
+}
+await access(join(dist, 'posts/2012/08/language/index.html'));
+const facts = await readFile(join(dist, 'profile.md'), 'utf8');
+assert(facts.includes('AWS experience is from a personal home project.'), 'Missing AWS scope in the public fact sheet');
+assert((await readFile(join(dist, 'llms.txt'), 'utf8')).includes('https://deniszagitov.github.io/profile.md'), 'Missing fact sheet discovery link');
+assert((await readFile(join(dist, 'robots.txt'), 'utf8')).includes('Allow: /'), 'Public profile must be crawlable');
+await access(join(dist, 'media/social.png'));
+console.log(`Verified ${pages.length} HTML pages and ${internalLinks} internal links; RU/EN SEO metadata and structured identity, crawlable sitemap and fact sheet, themes, ${catalogue.length} byte-identical diploma originals, original presentations, and legacy content routes.`);

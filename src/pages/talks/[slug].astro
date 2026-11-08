@@ -1,0 +1,9 @@
+---
+import { talks } from '../../data/materials';
+import MaterialPage from '../../components/MaterialPage.astro';
+export function getStaticPaths() {
+  return talks.map(material => ({ params: { slug: material.frontmatter.permalink.split('/').at(-1) }, props: { material } }));
+}
+const { material } = Astro.props;
+---
+<MaterialPage material={material} />

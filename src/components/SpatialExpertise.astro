@@ -67,7 +67,7 @@ const streams = [[-86, 44], [76, 34], [-64, -49], [82, -39], [24, 65], [-27, 67]
     {architectureLayers.map(layer => <label class="spatial-choice">
       <input type="radio" name="expertise-layer" value={layer.id} checked={layer.id === 'ai'} aria-label={layer[locale].title} aria-describedby={'expertise-description-' + layer.id} />
       <span class="spatial-choice-number">{layer.number}</span>
-      <span class="spatial-choice-copy"><strong>{layer[locale].title}</strong><span id={'expertise-description-' + layer.id}>{layer[locale].summary}</span><span class="spatial-choice-tags">{layer.technologies.map(t => t.name).join(' · ')}</span></span>
+      <span class="spatial-choice-copy"><strong>{layer[locale].title}</strong><span id={'expertise-description-' + layer.id}>{layer[locale].summary}</span><span class="spatial-choice-tags">{layer.technologies.map(t => t.name === 'AWS' ? (locale === 'ru' ? 'AWS (личный проект)' : 'AWS (personal project)') : t.name).join(' · ')}</span></span>
       <span class="spatial-choice-dot" aria-hidden="true"></span>
     </label>)}
   </fieldset>

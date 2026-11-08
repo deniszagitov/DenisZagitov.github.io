@@ -1,0 +1,16 @@
+---
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { presentations, type Material } from '../data/materials';
+interface Props { material: Material; }
+const { material } = Astro.props;
+const { Content, frontmatter: info } = material;
+const presentation = presentations[info.permalink];
+const date = new Date(info.date);
+---
+<SiteLayout locale="ru" title={info.title} description={`${info.title}. Материал Дениса Загитова, ${date.getFullYear()}.`}>
+  <article class="container material-page">
+    <a class="back-link" href="/talks/">← Выступления и материалы</a>
+    <header class="page-intro"><p class="eyebrow">ДЕНИС ЗАГИТОВ / МАТЕРИАЛ ИЗ АРХИВА</p><h1>{info.title}</h1><p><time datetime={date.toISOString().slice(0, 10)}>{date.toLocaleDateString('ru', { timeZone: 'UTC', day: 'numeric', month: 'long', year: 'numeric' })}</time>{info.venue && ` · ${info.venue}`}</p>{presentation && <a class="text-link" href={presentation}>Презентация · PPTX ↗</a>}</header>
+    <div class="material-prose"><Content /></div>
+  </article>
+</SiteLayout>

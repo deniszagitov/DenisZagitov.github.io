@@ -1,0 +1,9 @@
+---
+import { posts } from '../../data/materials';
+import MaterialPage from '../../components/MaterialPage.astro';
+export function getStaticPaths() {
+  return posts.map(material => ({ params: { post: material.frontmatter.permalink.replace(/^\/posts\//, '').replace(/\/$/, '') }, props: { material } }));
+}
+const { material } = Astro.props;
+---
+<MaterialPage material={material} />

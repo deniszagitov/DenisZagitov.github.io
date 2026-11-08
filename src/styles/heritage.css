@@ -59,7 +59,7 @@
   .hero h1 { font-family: var(--sans); font-weight: 650; font-size: clamp(75px, 8vw, 108px); line-height: 1.03; letter-spacing: -.075em; margin-top: 24px; }
   .hero-surname { display: inline-block; background: var(--metal-text); background-size: 240% 100%; background-position: var(--metal-position, 45%) 50%; background-clip: text; -webkit-background-clip: text; color: transparent; padding: 0 .065em .08em 0; margin-right: -.065em; transition: background-position 1.5s cubic-bezier(.2,.65,.3,1); }
   .hero-surname .accent { color: inherit; }
-  .hero-role { margin-top: 13px; font-size: 21px; letter-spacing: -.035em; }
+  .hero-role { display: block; margin-top: 13px; font-size: 21px; font-weight: 500; line-height: 1.5; letter-spacing: -.035em; }
   .hero-intro { font-size: 15px; line-height: 1.8; max-width: 430px; margin-top: 20px; }
   .hero-actions { gap: 27px; margin-top: 30px; }
   .button { border-radius: 999px; min-height: 46px; padding: 14px 23px; gap: 22px; }
@@ -111,6 +111,17 @@
   .timeline-marker.current { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 0 5px color-mix(in srgb, var(--gold) 10%, transparent); }
   .current-mark { background: var(--gold); }
   .timeline-description > p { font-size: 13px; }
+  .timeline-description .timeline-detail { margin-top: 12px; font-size: 12px; }
+  .material-page { padding-block: 55px 110px; max-width: 920px; }
+  .material-prose { max-width: 760px; margin-inline: auto; }
+  .material-prose :is(p, ul, ol, pre, blockquote) { margin-block: 1.4em; }
+  .material-prose :is(h2, h3) { margin-block: 1.5em .6em; }
+  .material-prose h2 { font-size: clamp(27px, 3vw, 38px); }
+  .material-prose a, .material-list a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: 4px; }
+  .material-prose img { max-height: 650px; width: auto; margin-inline: auto; border-radius: 12px; }
+  .material-prose pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .material-list article { padding-block: 30px; border-bottom: 1px solid var(--gold-line); }
+  .material-list h2 { font-size: clamp(25px, 3vw, 36px); margin-block: 12px; }
   .tags span { border-color: color-mix(in srgb, var(--gold) 19%, var(--line)); border-radius: 6px; padding: 4px 8px; }
   .approach-grid { gap: 42px; }
   .approach-number { font-family: var(--sans); font-weight: 400; letter-spacing: -.07em; background: var(--metal-text); background-clip: text; -webkit-background-clip: text; color: transparent; }

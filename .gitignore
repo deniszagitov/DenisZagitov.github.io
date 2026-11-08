@@ -23,3 +23,5 @@ dist/
 .astro/
 public/assets/images/portfolio/
 public/media/
+public/files/
+public/images/

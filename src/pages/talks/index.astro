@@ -1,0 +1,8 @@
+---
+import SiteLayout from '../../layouts/SiteLayout.astro';
+import { talks, posts, materialPath } from '../../data/materials';
+---
+<SiteLayout locale="ru" title="Выступления и материалы" description="Сохранённые выступления и статья Дениса Загитова: ситуационные центры, BIT-2017, язык и технологии.">
+  <div class="container material-page"><a class="back-link" href="/">← На главную</a><div class="page-intro"><p class="eyebrow">ЛИЧНЫЙ АРХИВ / ДЕНИС ЗАГИТОВ</p><h1>Выступления и материалы.</h1><p>Сохранённые тексты и презентации разных лет.</p></div>
+  <div class="material-list">{[...talks, ...posts].sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()).map(material => <article><p class="eyebrow">{new Date(material.frontmatter.date).getUTCFullYear()}</p><h2><a href={materialPath(material)}>{material.frontmatter.title} ↗</a></h2>{material.frontmatter.venue && <p>{material.frontmatter.venue}</p>}</article>)}</div></div>
+</SiteLayout>
